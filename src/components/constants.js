@@ -1,8 +1,8 @@
 //PROD
-export const API_INPRONET = "https://api.inpronet.es/inproecoweb2_0";
+//export const API_INPRONET = "https://api.inpronet.es/inproecoweb2_0";
 
 // QA
-//export const API_INPRONET = "http://34.243.112.211/inproecoweb2_0";
+export const API_INPRONET = "https://apiqa.inpronet.es/inproecoweb2_0";
 
 // CONSTANTES PARA BRICOMART
 
