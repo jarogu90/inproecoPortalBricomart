@@ -17,7 +17,7 @@ const ShowDocumentsModal = ({ showDocumentsModal, toggle, retirada }) => {
 
   const fetchDocument = async (url) => {
     const fetchDocument = await fetch(
-      `${API_INPRONET}/download.php?filename=${url}`
+      `${API_INPRONET}/downloadbrico.php?filename=${url}`
     );
     const resfetchDocument = await fetchDocument.blob();
     var reader = new FileReader();
@@ -47,10 +47,10 @@ const ShowDocumentsModal = ({ showDocumentsModal, toggle, retirada }) => {
           <a
             target="_blank"
             download="documento"
-            href={type === "parteA" ? [parteA] : [parteB]}
+            href={type === "parteB" ? [parteB] : [parteA]}
             title="Descargar"
           >
-            {path.includes("parteA") ? "Parte A" : "Parte B"}
+            {path.includes("parteB") ? "Parte B" : "Parte A"}
           </a>
         </span>
       </li>
