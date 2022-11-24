@@ -395,7 +395,7 @@ const FormularioNuevaVenta = ({history}) => {
     }
 
     useEffect(() => {
-        fetchLastId()
+       // fetchLastId()
         !existsParteB() ? setDatosForm({...datosForm, estado_id: 2}) : setDatosForm({...datosForm, estado_id: 3})
     }, [fileNamesB])
 
