@@ -423,7 +423,7 @@ const FormularioNuevaVenta = ({history}) => {
         if(fileNamesB.length > 0) {
             parteBId = await saveDocuments(newFilesB, fileNamesB, "Bricomart Parte B")    
         }
-        queryString.id = newId
+        //queryString.id = newId
         await client
                 .mutate({
                     mutation: insertVentaBricomart,
