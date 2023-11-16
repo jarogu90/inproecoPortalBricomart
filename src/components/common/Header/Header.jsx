@@ -273,7 +273,7 @@ class Header extends React.Component{
     
     
                         </div>
-                        
+                                  <span>{this.state.user && this.state.user.alta_productor}</span>
                         <Collapse isOpen={this.state.isOpen} navbar className="navbar-right">
                             <Nav navbar>
                                 <Dropdown nav isOpen={this.state.userddOpen} toggle={(e) => this.userddToggle(e)} className="userdd">
