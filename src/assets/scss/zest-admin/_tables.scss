@@ -427,7 +427,10 @@ table.fixheight {
   margin-top: 2em;
 }
 
-
+.clearFilters {
+  position: absolute;
+  margin-top: -60px;
+}
 
 /* .ant-picker-dropdown-range,
 .ant-picker-dropdown,

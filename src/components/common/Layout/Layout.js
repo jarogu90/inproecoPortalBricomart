@@ -36,19 +36,20 @@ import {
 import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 import { GridExporter } from "@devexpress/dx-react-grid-export";
 import saveAs from "file-saver";
-import MultiSelect from "@khanacademy/react-multi-select";
 
 // COMPONENTS
-import ExportExcel from "./../Export/ExportExcel";
-import Buttons from "./../Buttons/Buttons";
 import FilterCell from "../../common/Filters/FilterCell";
 import RowVentaActions from "../Icons/RowVentaActions";
+import ClearFilters from "../Filters/ClearFilters";
 
 // CONSTANTS
 import { compareDates } from "./../../constants";
 
 // CONTEXT
-import { GlobalDispatchContext } from "../../../context/GlobalContext";
+import {
+  GlobalStateContext,
+  GlobalDispatchContext,
+} from "../../../context/GlobalContext";
 
 // GRAPHQL
 import {
@@ -57,7 +58,7 @@ import {
   getVentasByCentroFilter,
   getCentros,
   getVentasByCentro,
-  getVentasByCentroNombre
+  getCentroName,
 } from "../../graphql";
 
 const Layout = ({
@@ -73,6 +74,8 @@ const Layout = ({
   lastQuery,
   setLastQuery,
 }) => {
+  const { filtersApplied } = useContext(GlobalStateContext);
+
   const dispatch = useContext(GlobalDispatchContext);
   const getRowId = (row) => row.ID;
   const filterRowMessages = {
@@ -80,11 +83,9 @@ const Layout = ({
   };
   const [filterRows, setFilterRows] = useState([]);
 
-  
-  
   const [count, setCount] = useState(null);
   const [pageSizes] = React.useState([5, 10, 15]);
-  const [filtersApplied, setFiltersApplied] = useState([])
+  /* const [filtersApplied, setFiltersApplied] = useState([]); */
 
   // SORTING DE FECHAS
   const [integratedSortingColumnExtensions] = useState([
@@ -92,7 +93,7 @@ const Layout = ({
   ]);
 
   const [tableColumnExtensions] = useState([
-    { columnName: "numero_serie", width: '210px' },
+    { columnName: "numero_serie", width: "210px" },
   ]);
 
   // FILTRO COLUMNA
@@ -102,13 +103,16 @@ const Layout = ({
       if (value === filter.value[i]) return true;
     }
 
-
     return IntegratedFiltering.defaultPredicate(value, filter, row);
   };
 
   const [filteringColumnExtensions, setFilteringColumnExtensions] = useState([
     { columnName: "centro", predicate: columnFilterMultiPredicate },
     { columnName: "estado", predicate: columnFilterMultiPredicate },
+  ]);
+
+  const [filteringStateColumnExtensions] = useState([
+    { columnName: "centro", filteringEnabled: false },
   ]);
 
   // EXPORT EXCEL
@@ -179,8 +183,8 @@ const Layout = ({
     };
 
   const loadData = (excelExport = false) => {
-    const queryString = getQueryString();
-
+    //const queryString = getQueryString();
+    const queryString = loadDataFilter();
     let limit = excelExport ? 10000 : 500;
     if (
       (queryString && excelExport) ||
@@ -202,8 +206,6 @@ const Layout = ({
         .then((res) => {
           const results = setEstadoName(res.data.ventas_bricomart);
           if (!excelExport) {
-       
-            
             setRows(results);
             setLastQuery(queryString);
           } else {
@@ -213,6 +215,7 @@ const Layout = ({
         });
       if (!excelExport) setLastQuery(queryString);
     }
+    console.log(lastQuery);
   };
 
   const loadDataFilter = () => {
@@ -225,60 +228,12 @@ const Layout = ({
        return centros = elemt.value
       }
     })
-    if (centros.length == 1) {
-      client
-        .query({
-          query:
-          getVentasByCentroNombre,
-          fetchPolicy: "no-cache",
-          variables: {
 
-            centro: centros.toString(),
-          },
-        })
-        .then((res) => {
-         setEstadoName(res.data.ventas_bricomart);
-         setRows(res.data.ventas_bricomart)
-         results = res.data.ventas_bricomart
-         
-         
-        }).catch((error)=> console.log(error));
-    }else if(centros.length > 1){
-      for (let i = 0; i < centros.length; i++) {
-        client
-        .query({
-          query:
-          getVentasByCentroNombre,
-          fetchPolicy: "no-cache",
-          variables: {
-
-            centro: centros[i].toString(),
-          },
-        })
-        .then((res) => {
-        let total = res.data.ventas_bricomart
-        setEstadoName(total);
-         total.forEach(element => {
-           results.push(element)
-         });
-         
-        }).catch((error)=> console.log(error));
-        
-      }
-     
-        setTimeout(() => {
-          setRows(results)
-          
-        }, 500);
-       
-    }
- 
-      
-    }
-  
+  };
 
   const dataCountFilter = () => {
-    const queryString = getQueryString();
+    const queryString = loadDataFilter();
+    console.log(queryString);
     client
       .query({
         query:
@@ -288,7 +243,6 @@ const Layout = ({
             : getVentasByCentro,
         fetchPolicy: "no-cache",
         variables: {
-
           fields: JSON.parse(queryString),
         },
       })
@@ -297,10 +251,11 @@ const Layout = ({
         setCount(results)
 
       });
-
-  }
+  };
 
   const dataCount = () => {
+    let centro = `{ "centro_id": { "_eq": "${user.centroId}" } }`;
+    const queryString = loadDataFilter();
     client
       .query({
         query:
@@ -309,37 +264,53 @@ const Layout = ({
             ? getVentasAllCentros
             : getVentasByCentro,
         fetchPolicy: "no-cache",
-        variables: {
-
-          fields: lastQuery,
-        },
+        variables:
+          user.rolDesc !== "BRICOMART_CENTRO" &&
+          user.rolDesc !== "BRICOMART_INPROECO_CENTRO"
+            ? {
+                fields: JSON.parse(queryString),
+              }
+            : {
+                fields: JSON.parse(centro),
+              },
       })
       .then((res) => {
         const results = res.data.getLeroyInstalacionesView.length;
         setCount(results)
 
       });
+  };
 
-  }
-
-
-
-  const [centros, setCentros] = useState([]);
-  const [estados, setEstados] = useState([]);
   const fetchCentros = useCallback(async () => {
     let results = [];
-    await client
-      .query({
-        query: getCentros,
-        fetchPolicy: "no-cache",
-      })
-      .then((res) => {
-   
-        for (let centro of res.data.getCentroProductor) {
-          results.push(centro.DENOMINACION);
-        }
-      });
-    setCentros(results);
+    if (
+      user.rolDesc !== "BRICOMART_CENTRO" &&
+      user.rolDesc !== "BRICOMART_INPROECO_CENTRO"
+    ) {
+      await client
+        .query({
+          query: getCentros,
+          fetchPolicy: "no-cache",
+        })
+        .then((res) => {
+          for (let centro of res.data.getCentroProductor) {
+            results.push(centro.DENOMINACION);
+          }
+        });
+    } else {
+      await client
+        .query({
+          query: getCentroName,
+          fetchPolicy: "no-cache",
+          variables: {
+            centroId: user.centroId,
+          },
+        })
+        .then((res) => {
+          results.push(res.data.getCentrosProductoresView[0].nombre);
+        });
+    }
+    dispatch({ type: "SET_CENTROS", payload: { centros: results } });
   }, [client, getCentros]);
 
   const fetchEstados = useCallback(async () => {
@@ -350,7 +321,6 @@ const Layout = ({
         fetchPolicy: "no-cache",
       })
       .then((res) => {
-    
         for (let estado of res.data.ventas_bricomart) {
           if (estado.estado_venta != null) {
             results.push(estado.estado_venta.nombre);
@@ -358,18 +328,20 @@ const Layout = ({
           results = [...new Set(results)];
         }
       });
-    setEstados(results);
+    dispatch({ type: "SET_ESTADOS", payload: { estados: results } });
   }, [client, getVentasAllCentros]);
 
   useEffect(() => {
-    //dataCount()
+    //dataCount();
     //fetchCentros();
-    //fetchEstados()
+    //fetchEstados();
   }, []);
 
   useEffect(() => {
-    dataCountFilter()
-  }, [getQueryString])
+    if (filtersApplied.length > 0) {
+      dataCountFilter();
+    }
+  }, [loadDataFilter]);
 
   useEffect(() => {
     dispatch({ type: "SET_LOAD_VENTAS", payload: { loadVentas: loadData } });
@@ -380,12 +352,14 @@ const Layout = ({
     }
   }, [searchValue]);
 
-  useEffect(()=>{
-    if (filtersApplied) {
-      loadDataFilter()
+  useEffect(() => {
+    if (filtersApplied.length > 0) {
+      loadData();
+    } else {
+      fetchVentas();
+      //dataCount();
     }
-    
-  }, [filtersApplied])
+  }, [filtersApplied]);
 
   return (
     <div>
@@ -407,38 +381,36 @@ const Layout = ({
                       ) : (
                         <Grid rows={rows} columns={columns} getRowId={getRowId}>
                           <PagingState defaultCurrentPage={0} pageSize={10} />
-                          <IntegratedPaging />
                           <SearchState onValueChange={setSearchValue} />
                           <SortingState />
-                          <FilteringState filters={filtersApplied} onFiltersChange={(filter) => setFiltersApplied(filter)}/>
-                                                {/* <EditingState
-                                                    onCommitChanges={commitChanges}
-                                                /> */}
-                                                <RowDetailState
-                                                   // expandedRowIds={expandedRows}
-                                                />
-                         
-                          <SortingState/>
+                          <FilteringState
+                            filters={filtersApplied}
+                            onFiltersChange={(filter) => {
+                              dispatch({
+                                type: "SET_FILTERS_APPLIED",
+                                payload: { filtersApplied: filter },
+                              });
+                            }}
+                            columnExtensions={filteringStateColumnExtensions}
+                          />
+                          <RowDetailState />
                           <IntegratedSorting
                             columnExtensions={integratedSortingColumnExtensions}
                           />
                           <IntegratedFiltering
                             columnExtensions={filteringColumnExtensions}
                           />
+                          <IntegratedPaging />
                           {children}
-                          <VirtualTable columnExtensions={tableColumnExtensions} />
+                          <VirtualTable
+                            columnExtensions={tableColumnExtensions}
+                          />
                           <TableHeaderRow showSortingControls />
                           <Toolbar />
-                          {/* <TableColumnVisibility
-                            hiddenColumnNames={hiddenColumnsNames}
-                          />
-                          */}
-                         {/*  <TableFilterRow
+                          <TableFilterRow
                             messages={filterRowMessages}
-                            cellComponent={(props) => (
-                              <FilterCell {...props} centros={centros} estados={estados} />
-                            )}
-                          /> */}
+                            cellComponent={FilterCell}
+                          />
                           <SearchPanel
                             messages={{ searchPlaceholder: "Buscar..." }}
                           />
@@ -461,9 +433,8 @@ const Layout = ({
                           <Template name="root">
                             <TemplateConnector>
                               {({ rows: filteredRows }) => {
-                              
-                                setFilterRows(filteredRows)
-                               
+                                setFilterRows(filteredRows);
+
                                 return <TemplatePlaceholder />;
                               }}
                             </TemplateConnector>
@@ -472,10 +443,12 @@ const Layout = ({
                           <PagingPanel />
                         </Grid>
                       )}
-
+                      <ClearFilters />
                     </div>
                   </div>
-                  <p>Mostrando {filterRows.length} de {count} resultados</p>
+                  <p>
+                    Mostrando {filterRows.length} de {count} resultados
+                  </p>
                 </div>
               </section>
             </div>

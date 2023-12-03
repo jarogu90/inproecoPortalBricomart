@@ -50,7 +50,7 @@ const App = (props) => {
                   />
                   {indexRoutes.map((prop, key) => {
                     if (!state.token && !state.isAllowed) {
-                      return <Redirect to="/login" />;
+                      return <Redirect key={key} to="/login" />;
                     } else {
                       return (
                         <Route

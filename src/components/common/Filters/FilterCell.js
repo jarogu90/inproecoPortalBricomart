@@ -1,37 +1,16 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import * as PropTypes from "prop-types";
 
 import { TableFilterRow } from "@devexpress/dx-react-grid-bootstrap4";
 import "@devexpress/dx-react-grid-bootstrap4/dist/dx-react-grid-bootstrap4.css";
 
-import { client, getCentros } from "../../../components/graphql";
-
 // components
 import UnitsFilterCell from "./UnitsFiltersCell";
+import { GlobalStateContext } from "../../../context/GlobalContext";
 
 const FilterCell = (props) => {
-  const { column, centros, estados } = props;
-  //const [centros, setCentros] = useState([]);
-
-  /* const fetchCentros = useCallback(async () => {
-    let results = [];
-    await client
-      .query({
-        query: getCentros,
-        fetchPolicy: "no-cache",
-      })
-      .then((res) => {
-        console.log(res.data.getCentroProductor);
-        for (let centro of res.data.getCentroProductor) {
-          results.push(centro.DENOMINACION);
-        }
-      });
-    setCentros(results);
-  }, [client, getCentros]);
-
-  useEffect(() => {
-    fetchCentros();
-  }, []); */
+  const { column } = props;
+  const { centros, estados } = useContext(GlobalStateContext);
 
   switch (column.name) {
     case "centro":

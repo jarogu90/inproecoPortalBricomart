@@ -16,9 +16,15 @@ const ShowDocumentsModal = ({ showDocumentsModal, toggle, retirada }) => {
   const [parteB, setParteB] = useState(false);
 
   const fetchDocument = async (url) => {
-    const fetchDocument = await fetch(
+    let fetchDocument = await fetch(
       `${API_INPRONET}/downloadbrico.php?filename=${url}`
     );
+    console.log(fetchDocument)
+    if(fetchDocument == null) {
+      fetchDocument = await fetch(
+      `${API_INPRONET}/download.php?filename=${url}`
+    );
+    }
     const resfetchDocument = await fetchDocument.blob();
     var reader = new FileReader();
     reader.onload = (e) => {

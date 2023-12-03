@@ -16,6 +16,9 @@ import { API_INPRONET } from '../../../components/constants';
 import VentaSuccessModal from '../../../components/common/Modals/VentaSuccessModal';
 import VentaErrorDocumentoModal from '../../../components/common/Modals/VentaErrorDocumentoModal';
 
+// Variable Global para FIX de añadir el ID al clicar en submit
+let newId;
+
 const FormularioNuevaVenta = ({history}) => {
 
     const { user } = useContext(GlobalStateContext);  
@@ -379,14 +382,14 @@ const FormularioNuevaVenta = ({history}) => {
     } */
 
     const onChangeCentro = (e) => {
-        console.log(e.target.value, e.target.options[e.target.selectedIndex].text)
         setDatosForm({...datosForm, centro_id: e.target.value, centro: e.target.options[e.target.selectedIndex].text})
         setAlmacen(true)
         //fetchZona(e.target.value)
     }
 
     // FORMATEAR DATOS PARA ENVIAR
-    const setMutationString = () => {
+    const setMutationString = async () => {
+        await fetchLastId();
         return JSON.stringify(datosForm);
     }
 
@@ -395,26 +398,27 @@ const FormularioNuevaVenta = ({history}) => {
     }
 
     useEffect(() => {
-       // fetchLastId()
+        /* fetchLastId() */
         !existsParteB() ? setDatosForm({...datosForm, estado_id: 2}) : setDatosForm({...datosForm, estado_id: 3})
     }, [fileNamesB])
 
-    const fetchLastId = () => {
-        return client
-                .query({
-                    query: getLastId,
-                    fetchPolicy: "no-cache"
-                })
-                .then(res => {
-                    //console.log(res.data.ventas_bricomart[0].id)
-                    setDatosForm({...datosForm, id: res.data.ventas_bricomart[0].id + 1})
-                    //return res.data.ventas_bricomart[0].id
-                })
+    const fetchLastId = async () => {
+        await client
+            .query({
+                query: getLastId,
+                fetchPolicy: "no-cache"
+            })
+            .then(res => {
+                newId = res.data.ventas_bricomart[0].id + 1
+                setDatosForm({...datosForm, id: res.data.ventas_bricomart[0].id + 1})
+            })
+
     }
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-        //console.log(JSON.parse(setMutationString()))
+        let queryString = await setMutationString()
+        queryString = JSON.parse(queryString)
         let ventaId;
         const parteAId = await saveDocuments(newFiles, fileNames, "Bricomart Parte A")
         if(!parteAId) {
@@ -425,11 +429,12 @@ const FormularioNuevaVenta = ({history}) => {
         if(fileNamesB.length > 0) {
             parteBId = await saveDocuments(newFilesB, fileNamesB, "Bricomart Parte B")    
         }
+        //queryString.id = newId
         await client
                 .mutate({
                     mutation: insertVentaBricomart,
                     variables: {
-                        fields: JSON.parse(setMutationString())
+                        fields: queryString
                     }
                 })
                 .then(res => {
@@ -453,7 +458,6 @@ const FormularioNuevaVenta = ({history}) => {
                     }
                 })
                 .then(res => {
-                    console.log(res)
                     return res.data.getDocumento[0].RUTA
                 })
     }

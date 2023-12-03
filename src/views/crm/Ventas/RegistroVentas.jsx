@@ -26,18 +26,20 @@ const RegistroVentas = () => {
     }
 
     const fetchVentasRoleCentro = useCallback(() => {
+        let centro = `{ "centro_id": { "_eq": "${centroId}" } }`
         client
             .query({
                 query: getVentasByCentro,
                 fetchPolicy: "no-cache",
                 variables: {
                     limit: 500,
-                    centroId: centroId
+                    fields: JSON.parse(centro)
+                    /* centroId: centroId */
                 }
             })
             .then(res => {
                 //console.log(res)
-                setVentas(setEstadoName(res.data.getLeroyInstalacionesView))
+                setVentas(res.data.getLeroyInstalacionesView)
             })
     }, [client, getVentasByCentro])
     console.log(lastQuery)
@@ -47,7 +49,7 @@ const RegistroVentas = () => {
                 query: getVentasAllCentros,
                 fetchPolicy: "no-cache",
                 variables: {
-                    limit: 2000,
+                    limit: 500,
                     fields: lastQuery
                   },
             })

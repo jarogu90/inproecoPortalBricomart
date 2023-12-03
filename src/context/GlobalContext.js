@@ -13,12 +13,12 @@ const initialState = {
   token: null,
   user: null,
   isAllowed: false,
-  centroSelectedFactura: null,
-  facturaCargada: null,
-  gestorSelectedFactura: null,
-  newGastosResiduo: [],
-  newOtrosGastos: [],
   loadVentas: null,
+  filtersApplied: [],
+  clickedOptionCentro: [],
+  clickedOptionEstado: [],
+  centros: [],
+  estados: [],
 };
 
 const reducer = (state, action) => {
@@ -61,22 +61,28 @@ const reducer = (state, action) => {
       return { ...state, token: null, user: null, isAllowed: null };
     case "SET_LOAD_VENTAS":
       return { ...state, loadVentas: action.payload.loadVentas };
-    case "SET_CENTRO_SELECTED_FACTURA":
+    case "SET_FILTERS_APPLIED":
+      return { ...state, filtersApplied: action.payload.filtersApplied };
+    case "SET_CLICKED_CENTRO":
       return {
         ...state,
-        centroSelectedFactura: action.payload.centroSelectedFactura,
+        clickedOptionCentro: action.payload.clickedOptionCentro,
       };
-    case "SET_FACTURA_CARGADA_ID":
-      return { ...state, facturaCargada: action.payload.facturaCargada };
-    case "SET_GESTOR_SELECTED_FACTURA":
+    case "SET_CLICKED_ESTADO":
       return {
         ...state,
-        gestorSelectedFactura: action.payload.gestorSelectedFactura,
+        clickedOptionEstado: action.payload.clickedOptionEstado,
       };
-    case "SET_NEW_GASTOS_RESIDUO":
-      return { ...state, newGastosResiduo: action.payload.newGastosResiduo };
-    case "SET_NEW_OTROS_GASTOS":
-      return { ...state, newOtrosGastos: action.payload.newOtrosGastos };
+    case "SET_CENTROS":
+      return {
+        ...state,
+        centros: action.payload.centros,
+      };
+    case "SET_ESTADOS":
+      return {
+        ...state,
+        estados: action.payload.estados,
+      };
     case "RESET": {
       return initialState;
     }
@@ -104,9 +110,11 @@ const init = () => {
       isAllowed: sessionStorage.getItem("isAllowed")
         ? JSON.parse(sessionStorage.getItem("isAllowed"))
         : false,
-      centroSelectedFactura: null,
-      newGastosResiduo: [],
-      newOtrosGastos: [],
+      filtersApplied: [],
+      clickedOptionCentro: [],
+      clickedOptionEstado: [],
+      centros: [],
+      estados: [],
     };
   } else {
     return initialState;

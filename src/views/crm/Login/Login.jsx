@@ -66,32 +66,32 @@ const Login = (props) => {
     }
 
     return (
-      <div class="home">
-      <img class="img" src="/ilustracion-login.png" />
+      <div className="home">
+      <img className="img" src="/ilustracion-login.png" />
 
-      <div class="login">
+      <div className="login">
         <img src="/circulo bienvenida.png" />
-        <p class="title-login">BIENVENIDO</p>
+        <p className="title-login">BIENVENIDO</p>
 
-        <form class="form">
+        <form className="form">
           <div>
-            <input class="input" placeholder="Usuario" type="text" id="username" name="username" onChange={onChangeUsername} />
+            <input className="input" placeholder="Usuario" type="text" id="username" name="username" onChange={onChangeUsername} />
           </div>
 
           <div>
-            <input class="input" placeholder="Contraseña" type="password" id="password" name="password" onChange={onChangePassword}/>
+            <input className="input" placeholder="Contraseña" type="password" id="password" name="password" onChange={onChangePassword}/>
           </div>
-          {/* <div class="contraseña">
+          {/* <div className="contraseña">
             Recordar mi contraseña
-            <input type="checkbox" class="input-checkbox" />
+            <input type="checkbox" className="input-checkbox" />
           </div> */}
           {userInvalid ? (<p>El usuario o la contraseña son incorrectos.</p>) : (<></>)}
-          <button class="button-login" onClick={onSubmit}>
+          <button className="button-login" onClick={onSubmit}>
             ENTRAR
           </button>
         </form>
 
-        <Link class="regis-login" to="/forgotten-password">
+        <Link className="regis-login" to="/forgotten-password">
             ¿Has olvidado tu contraseña?
         </Link>
       </div>

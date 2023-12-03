@@ -49,8 +49,8 @@ export const getCentros = gql`
 
 // queries
 export const getVentasByCentro = gql`
-  query ventas($centroId: String!, $limit: Int) {
-    ventas_bricomart(limit: $limit, where: { centro_id: { _eq: $centroId } }) {
+  query ventas($fields: ventas_bricomart_bool_exp, $limit: Int) {
+    ventas_bricomart(limit: $limit, where: $fields, order_by: { id: desc }) {
       id
       apellido1
       apellido2
@@ -85,7 +85,7 @@ export const getVentasByCentro = gql`
 `;
 export const getVentasByCentroLM = gql`
   query ventas($centroId: String!, $limit: Int) {
-    getLeroyInstalacionesView(limit: $limit, where: { CENTRO_PRODUCTOR_ID: { _eq: $centroId } }) {
+    getLeroyInstalacionesView(limit: $limit,orderBy: {ID: desc}, where: { CENTRO_PRODUCTOR_ID: { _eq: $centroId } }) {
       ID
       APELLIDO1
       APELLIDO2
@@ -158,43 +158,45 @@ export const getVentasByCentroFilter = gql`
   }
 `;
 
-export const getVentasByCentroNombre = gql `query ventas($centro: String!) {
-  ventas_bricomart(where: {centro: {_ilike: $centro}}) {
-    id
-    apellido1
-    apellido2
-    cantidad
-    centro
-    parteA_ruta
-    parteB_ruta
-    estado_venta {
+export const getVentasByCentroNombre = gql`
+  query ventas($centro: String!) {
+    ventas_bricomart(where: { centro: { _ilike: $centro } }) {
+      id
+      apellido1
+      apellido2
+      cantidad
+      centro
+      parteA_ruta
+      parteB_ruta
+      estado_venta {
+        nombre
+      }
+      estado_id
+      fecha_venta
+      localidad
+      marca
+      modelo
+      nif
       nombre
+      nombre_via
+      numero
+      piso
+      puerta
+      codigo_postal
+      numero_serie
+      provincia
+      razon_social
+      referencia
+      tipo_gas
+      tipo_via
+      zona
     }
-    estado_id
-    fecha_venta
-    localidad
-    marca
-    modelo
-    nif
-    nombre
-    nombre_via
-    numero
-    piso
-    puerta
-    codigo_postal
-    numero_serie
-    provincia
-    razon_social
-    referencia
-    tipo_gas
-    tipo_via
-    zona
   }
-}`;
+`;
 
 export const getVentasAllCentros = gql`
   query ventas($fields: leroyInstalacionesViewWhereInput) {
-    getLeroyInstalacionesView(limit: 10, where: $fields) {
+    getLeroyInstalacionesView(limit: 10, where: $fields,orderBy: {ID: desc}) {
       ID
       APELLIDO1
       APELLIDO2
