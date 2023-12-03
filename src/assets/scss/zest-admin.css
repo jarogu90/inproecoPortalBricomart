@@ -9310,7 +9310,7 @@ h3.blogtitle a {
   width: 100%;
   z-index: 10;
   padding: 30px;
-  color: #f5f5f5;
+  color: #f5f55;
   text-align: left;
   text-shadow: none; }
 
@@ -10480,7 +10480,6 @@ table.fixheight {
 .asociar-servicio-button {
   float: right;
   margin-top: 2em; }
-
 
 /* .ant-picker-dropdown-range,
 .ant-picker-dropdown,

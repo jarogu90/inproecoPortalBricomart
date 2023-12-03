@@ -2,8 +2,8 @@ import ApolloClient, { InMemoryCache, gql } from "apollo-boost";
 
 export const client = new ApolloClient({
   //uri: 'http://63.33.70.172:8080/v1/graphql',
-  //uri: "https://back-inpr.app.inpronet.es/v1/graphql",
-  uri: "https://prod-back-inpronet.app.inpronet.es/v1/graphql",
+  uri: "https://back-inpr.app.inpronet.es/v1/graphql",
+  //uri: "https://prod-back-inpronet.app.inpronet.es/v1/graphql",
   fetch,
   request: (operation) => {
     operation.setContext({
@@ -83,7 +83,45 @@ export const getVentasByCentro = gql`
     }
   }
 `;
-
+export const getVentasByCentroLM = gql`
+  query ventas($centroId: String!, $limit: Int) {
+    getLeroyInstalacionesView(limit: $limit, where: { CENTRO_PRODUCTOR_ID: { _eq: $centroId } }) {
+      ID
+      APELLIDO1
+      APELLIDO2
+      CANTIDAD
+      ESTADO_ID
+      ESTADO_NOMBRE
+      FECHA_VENTA
+      LOCALIDAD
+      MARCA
+      MODELO
+      NIF
+      NOMBRE
+      NOMBRE_VIA
+      NUMERO
+      NUMERO_PEDIDO
+      PISO
+      PUERTA
+      CP
+      NUMERO_SERIE
+      PROVINCIA
+      LOCALIDAD_NOMBRE
+      PROVINCIA_NOMBRE
+      RAZON_SOCIAL
+      REFERENCIA
+      TIPO_GAS
+      TIPO_VIA
+      ZONA_ID
+      TICKET_COMPRA
+      VENTA_TELEFONICA
+      INSTALACION_PROPIA
+      CODIGO_VENTA
+      ZONA_NOMBRE
+      CENTRO_PRODUCTOR_NOMBRE
+    }
+  }
+`;
 export const getVentasByCentroFilter = gql`
   query ventas($fields: ventas_bricomart_bool_exp, $limit: Int) {
     ventas_bricomart(limit: $limit, where: $fields) {
@@ -155,36 +193,40 @@ export const getVentasByCentroNombre = gql `query ventas($centro: String!) {
 }`;
 
 export const getVentasAllCentros = gql`
-  query ventas($fields: ventas_bricomart_bool_exp, $limit: Int) {
-    ventas_bricomart(limit: $limit, where: $fields) {
-      id
-      apellido1
-      apellido2
-      cantidad
-      centro
-      parteA_ruta
-      parteB_ruta
-      estado_venta {
-        nombre
-      }
-      estado_id
-      fecha_venta
-      localidad
-      marca
-      modelo
-      nif
-      nombre
-      nombre_via
-      numero_serie
-      numero
-      piso
-      puerta
-      codigo_postal
-      provincia
-      razon_social
-      referencia
-      tipo_gas
-      tipo_via
+  query ventas($fields: leroyInstalacionesViewWhereInput) {
+    getLeroyInstalacionesView(limit: 10, where: $fields) {
+      ID
+      APELLIDO1
+      APELLIDO2
+      CANTIDAD
+      ESTADO_ID
+      ESTADO_NOMBRE
+      FECHA_VENTA
+      LOCALIDAD
+      MARCA
+      MODELO
+      NIF
+      NOMBRE
+      NOMBRE_VIA
+      NUMERO
+      NUMERO_PEDIDO
+      PISO
+      PUERTA
+      CP
+      NUMERO_SERIE
+      PROVINCIA
+      LOCALIDAD_NOMBRE
+      PROVINCIA_NOMBRE
+      RAZON_SOCIAL
+      REFERENCIA
+      TIPO_GAS
+      TIPO_DE_VIA
+      ZONA_ID
+      TICKET_COMPRA
+      INSTALACION_PROPIA
+      CODIGO_VENTA
+      ZONA_NOMBRE
+      CENTRO_PRODUCTOR_NOMBRE
     }
   }
 `;

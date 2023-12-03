@@ -1,26 +1,27 @@
 //PROD
-export const API_INPRONET = "https://api.inpronet.es/inproecoweb2_0";
+//export const API_INPRONET = "https://api.inpronet.es/inproecoweb2_0";
 
 // QA
 //export const API_INPRONET = "http://34.243.112.211/inproecoweb2_0";
+export const API_INPRONET = "https://api.dev.inpronet.es/inproecoweb2_0";
 
 // CONSTANTES PARA BRICOMART
 
 export const REGISTRO_VENTAS_COLUMNS = [
-  { name: "id", title: "ID" },
-  { name: "centro", title: "Centro" },
-  { name: "fecha_venta", title: "Fecha compra" },
-  { name: "nif", title: "Nif" },
-  { name: "nombre", title: "Nombre" },
-  { name: "apellido1", title: "Apellido 1" },
-  { name: "apellido2", title: "Apellido 2" },
-  { name: "nombre_via", title: "Calle" },
-  { name: "localidad", title: "Localidad" },
-  { name: "marca", title: "Marca" },
-  { name: "modelo", title: "Modelo" },
-  { name: "numero_serie", title: "Nº de Serie" },
-  { name: "referencia", title: "Referencia" },
-  { name: "estado", title: "Estado" },
+  { name: "ID", title: "ID" },
+  { name: "CENTRO_PRODUCTOR_NOMBRE", title: "Centro" },
+  { name: "FECHA_VENTA_ORDEN", title: "Fecha compra" },
+  { name: "NIF", title: "Nif" },
+  { name: "NOMBRE", title: "Nombre" },
+  { name: "APELLIDO1", title: "Apellido 1" },
+  { name: "APELLIDO2", title: "Apellido 2" },
+  { name: "NOMBRE_VIA", title: "Calle" },
+  { name: "LOCALIDAD", title: "Localidad" },
+  { name: "MARCA", title: "Marca" },
+  { name: "MODELO", title: "Modelo" },
+  { name: "NUMERO_SERIE", title: "Nº de Serie" },
+  { name: "REFERENCIA", title: "Referencia" },
+  { name: "ESTADO_NOMBRE", title: "Estado" },
 ];
 
 export const REGISTRO_VENTAS_EXPORT_COLUMNS = [

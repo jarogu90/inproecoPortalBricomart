@@ -74,7 +74,7 @@ const Layout = ({
   setLastQuery,
 }) => {
   const dispatch = useContext(GlobalDispatchContext);
-  const getRowId = (row) => row.id;
+  const getRowId = (row) => row.ID;
   const filterRowMessages = {
     filterPlaceholder: "Filtrar...",
   };
@@ -139,21 +139,19 @@ const Layout = ({
   const getQueryString = () => {
     let filter;
     if (
-      user.rolDesc !== "BRICOMART_CENTRO" &&
-      user.rolDesc !== "BRICOMART_INPROECO_CENTRO"
+      user.rolDesc !== "LEROY_INSTALACIONES_CENTRO" &&
+      user.rolDesc !== "INPROECO"
     ) {
       filter = columns
         .reduce((acc, { name }) => {
     
-     
+          if(searchValue === ""){
+            return acc;
+          }
           if (name === "id") {
         
             /* acc.push(`{"${name}": {"_eq": "${searchValue}"}}`); */
-          } else if (name === "estado") {
-            acc.push(
-              `{"estado_venta": {"nombre": {"_ilike": "%${searchValue}%"}}}`
-            );
-          } else acc.push(`{"${name}": {"_ilike": "%${searchValue}%"}}`);
+          } else acc.push(`"${name}": "(${searchValue})"`);
           return acc;
         }, [])
         .join(",");
@@ -161,7 +159,7 @@ const Layout = ({
       if (columns.length > 1) {
         filter = `${filter}`;
       }
-      return `{"_or":[${filter}]}`;
+      return `{${filter}}`;
     }
 
     filter = columns
@@ -169,11 +167,7 @@ const Layout = ({
         if (name === "id") {
           /* console.log("id"); */
           /* acc.push(`{"${name}": {"_eq": "${searchValue}"}}`); */
-        } else if (name === "estado") {
-          acc.push(
-            `{"estado_venta": {"nombre": {"_ilike": "%${searchValue}%"}}}`
-          );
-        } else acc.push(`{"${name}": {"_ilike": "%${searchValue}%"}}`);
+        }  else acc.push(`"${name}": "(${searchValue})"`);
         return acc;
       }, [])
       .join(",");
@@ -181,8 +175,8 @@ const Layout = ({
     if (columns.length > 1) {
       filter = `${filter}`;
     }
-    return `{"_and":[{"centro_id":{"_eq":"${user.centroId}"}}, {"_or":[${filter}]}]}`;
-  };
+    return `{${filter}}`;
+    };
 
   const loadData = (excelExport = false) => {
     const queryString = getQueryString();
@@ -195,8 +189,8 @@ const Layout = ({
       client
         .query({
           query:
-            user.rolDesc !== "BRICOMART_CENTRO" &&
-              user.rolDesc !== "BRICOMART_INPROECO_CENTRO"
+            user.rolDesc !== "LEROY_INSTALACIONES_CENTRO" &&
+              user.rolDesc !== "INPROECO"
               ? getVentasAllCentros
               : getVentasByCentroFilter,
           fetchPolicy: "no-cache",
@@ -225,7 +219,7 @@ const Layout = ({
     let centros = []
     let results = []
      filtersApplied.forEach((elemt)=>{
-      if (elemt.columnName === "centro") {
+      if (elemt.columnName === "CENTRO_PRODUCTOR_NOMBRE") {
         
         
        return centros = elemt.value
@@ -288,8 +282,8 @@ const Layout = ({
     client
       .query({
         query:
-          user.rolDesc !== "BRICOMART_CENTRO" &&
-            user.rolDesc !== "BRICOMART_INPROECO_CENTRO"
+          user.rolDesc !== "LEROY_INSTALACIONES_CENTRO" &&
+            user.rolDesc !== "INPROECO"
             ? getVentasAllCentros
             : getVentasByCentro,
         fetchPolicy: "no-cache",
@@ -299,7 +293,7 @@ const Layout = ({
         },
       })
       .then((res) => {
-        const results = res.data.ventas_bricomart.length;
+        const results = res.data.getLeroyInstalacionesView.length;
         setCount(results)
 
       });
@@ -310,8 +304,8 @@ const Layout = ({
     client
       .query({
         query:
-          user.rolDesc !== "BRICOMART_CENTRO" &&
-            user.rolDesc !== "BRICOMART_INPROECO_CENTRO"
+          user.rolDesc !== "LEROY_INSTALACIONES_CENTRO" &&
+            user.rolDesc !== "INPROECO"
             ? getVentasAllCentros
             : getVentasByCentro,
         fetchPolicy: "no-cache",
@@ -321,7 +315,7 @@ const Layout = ({
         },
       })
       .then((res) => {
-        const results = res.data.ventas_bricomart.length;
+        const results = res.data.getLeroyInstalacionesView.length;
         setCount(results)
 
       });
@@ -368,9 +362,9 @@ const Layout = ({
   }, [client, getVentasAllCentros]);
 
   useEffect(() => {
-    dataCount()
-    fetchCentros();
-    fetchEstados()
+    //dataCount()
+    //fetchCentros();
+    //fetchEstados()
   }, []);
 
   useEffect(() => {

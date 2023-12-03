@@ -21,7 +21,7 @@ const RegistroVentas = () => {
     const [lastQuery, setLastQuery] = useState();
 
     const fetchVentas = () => {
-        if(user.rolDesc === "BRICOMART_CENTRO" || user.rolDesc === "BRICOMART_INPROECO_CENTRO") fetchVentasRoleCentro()
+        if(user.rolDesc === "LEROY_INSTALACIONES_CENTRO" || user.rolDesc === "INPROECO") fetchVentasRoleCentro()
         else fetchVentasRoleCorporativo()
     }
 
@@ -37,10 +37,10 @@ const RegistroVentas = () => {
             })
             .then(res => {
                 //console.log(res)
-                setVentas(setEstadoName(res.data.ventas_bricomart))
+                setVentas(setEstadoName(res.data.getLeroyInstalacionesView))
             })
     }, [client, getVentasByCentro])
-
+    console.log(lastQuery)
     const fetchVentasRoleCorporativo = useCallback(() => {
         client
             .query({
@@ -52,7 +52,7 @@ const RegistroVentas = () => {
                   },
             })
             .then(res => {
-                setVentas(setEstadoName(res.data.ventas_bricomart))
+                setVentas(res.data.getLeroyInstalacionesView)
             })
     }, [client, getVentasAllCentros])
 
