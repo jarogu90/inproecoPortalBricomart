@@ -21,8 +21,8 @@ const RowVentaActions = (props) => {
         {...props.restProps}
       >
         <ShowDocuments {...props} />
-        {(user.rolDesc === "BRICOMART_INPROECO" ||
-          user.rolDesc === "BRICOMART_INPROECO_CENTRO") && (
+        {(user.rolDesc === "LEROY_INSTALACIONES_CORPORATIVO" ||
+          user.rolDesc === "LEROY_INSTALACIONES_CENTRO") && (
           <>
             <ShowEditVenta {...props} />
             <ShowDeleteVenta {...props} />

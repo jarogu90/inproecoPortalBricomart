@@ -250,7 +250,7 @@ class Sidebar extends React.Component{
                                       </Navmenudropdown>
                                     );
 
-                                if(this.state.user.rolDesc === "BRICOMART_INPROECO" || this.state.user.rolDesc === "BRICOMART_INPROECO_CENTRO") {
+                                if(this.state.user.rolDesc === "INPROECO" || this.state.user.rolDesc === "LEROY_INSTALACIONES_CORPORATIVO") {
                                     return (
                                         <li className={this.activeRoute(prop.path) + ' nav-parent '} key={key} onClick={() => this.handleOpendd(prop.name)}>
                                             <NavLink to={prop.path} className="nav-link" activeClassName="active">

@@ -333,7 +333,7 @@ const Layout = ({
 
   useEffect(() => {
     //dataCount();
-    //fetchCentros();
+    fetchCentros();
     //fetchEstados();
   }, []);
 

@@ -432,7 +432,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeFullName}
-                  value={datosForm.nombre ? datosForm.nombre : ""}
+                  value={datosForm.NOMBRE ? datosForm.NOMBRE : ""}
                 />
               </FormGroup>
             </Col>
@@ -442,7 +442,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeApellido1}
-                  value={datosForm.apellido1 ? datosForm.apellido1 : ""}
+                  value={datosForm.APELLIDO1 ? datosForm.APELLIDO1 : ""}
                 />
               </FormGroup>
             </Col>
@@ -452,7 +452,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeApellido2}
-                  value={datosForm.apellido2 ? datosForm.apellido2 : ""}
+                  value={datosForm.APELLIDO2 ? datosForm.APELLIDO2 : ""}
                 />
               </FormGroup>
             </Col>
@@ -464,7 +464,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeRazonSocial}
-                  value={datosForm.razon_social ? datosForm.razon_social : ""}
+                  value={datosForm.RAZON_SOCIAL ? datosForm.RAZON_SOCIAL : ""}
                 />
               </FormGroup>
             </Col>
@@ -476,7 +476,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeTipoVia}
-                  value={datosForm.tipo_via ? datosForm.tipo_via : ""}
+                  value={datosForm.TIPO_DE_VIA ? datosForm.TIPO_DE_VIA : ""}
                 />
               </FormGroup>
             </Col>
@@ -486,7 +486,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeNombreVia}
-                  value={datosForm.nombre_via ? datosForm.nombre_via : ""}
+                  value={datosForm.NOMBRE_VIA ? datosForm.NOMBRE_VIA : ""}
                 />
               </FormGroup>
             </Col>
@@ -496,7 +496,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeNumero}
-                  value={datosForm.numero ? datosForm.numero : ""}
+                  value={datosForm.NUMERO ? datosForm.NUMERO : ""}
                 />
               </FormGroup>
             </Col>
@@ -506,7 +506,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangePiso}
-                  value={datosForm.piso ? datosForm.piso : ""}
+                  value={datosForm.PISO ? datosForm.PISO : ""}
                 />
               </FormGroup>
             </Col>
@@ -516,7 +516,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangePuerta}
-                  value={datosForm.puerta ? datosForm.puerta : ""}
+                  value={datosForm.PUERTA ? datosForm.PUERTA : ""}
                 />
               </FormGroup>
             </Col>
@@ -526,7 +526,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeCodigoPostal}
-                  value={datosForm.codigo_postal ? datosForm.codigo_postal : ""}
+                  value={datosForm.CP ? datosForm.CP : ""}
                 />
               </FormGroup>
             </Col>
@@ -538,11 +538,11 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="select"
                   onChange={onChangeProvincia}
-                  value={datosForm.provincia ? datosForm.provincia : ""}
+                  value={datosForm.PROVINCIA ? datosForm.PROVINCIA : ""}
                 >
                   <option selected defaultValue>
                     {" "}
-                    {datosForm.provincia}
+                    {datosForm.PROVINCIA}
                   </option>
                   {provincias &&
                     provincias.map((provincia) => {
@@ -561,11 +561,11 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="select"
                   onChange={onChangeMunicipio}
-                  value={datosForm.localidad ? datosForm.localidad : ""}
+                  value={datosForm.LOCALIDAD ? datosForm.LOCALIDAD : ""}
                 >
                   <option selected defaultValue>
                     {" "}
-                    {datosForm.localidad}{" "}
+                    {datosForm.LOCALIDAD}{" "}
                   </option>
                   {localidades &&
                     localidades.map((localidad) => {
@@ -586,7 +586,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeMarca}
-                  value={datosForm.marca ? datosForm.marca : ""}
+                  value={datosForm.MARCA ? datosForm.MARCA : ""}
                 />
               </FormGroup>
             </Col>
@@ -596,7 +596,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeModelo}
-                  value={datosForm.modelo ? datosForm.modelo : ""}
+                  value={datosForm.MODELO ? datosForm.MODELO : ""}
                 />
               </FormGroup>
             </Col>
@@ -608,7 +608,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeReferencia}
-                  value={datosForm.referencia ? datosForm.referencia : ""}
+                  value={datosForm.REFERENCIA ? datosForm.REFERENCIA : ""}
                 />
               </FormGroup>
             </Col>
@@ -618,7 +618,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeNumeroSerie}
-                  value={datosForm.numero_serie ? datosForm.numero_serie : ""}
+                  value={datosForm.NUMERO_SERIE ? datosForm.NUMERO_SERIE : ""}
                 />
               </FormGroup>
             </Col>
@@ -628,7 +628,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="number"
                   onChange={onChangeCantidad}
-                  value={datosForm.cantidad ? datosForm.cantidad : ""}
+                  value={datosForm.CANTIDAD ? datosForm.CANTIDAD : ""}
                 />
               </FormGroup>
             </Col>
@@ -638,7 +638,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="text"
                   onChange={onChangeTipoGas}
-                  value={datosForm.tipo_gas ? datosForm.tipo_gas : ""}
+                  value={datosForm.TIPO_GAS ? datosForm.TIPO_GAS : ""}
                 />
               </FormGroup>
             </Col>
@@ -661,10 +661,10 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                 <Input
                   type="select"
                   onChange={onChangeCentro}
-                  value={datosForm.centro_id ? datosForm.centro_id : ""}
+                  value={datosForm.CENTRO_PRODUCTOR_ID ? datosForm.CENTRO_PRODUCTOR_ID : ""}
                 >
-                  <option selected value={datosForm.centro_id}>
-                    {datosForm.centro}
+                  <option selected value={datosForm.CENTRO_PRODUCTOR_ID}>
+                    {datosForm.CENTRO_PRODUCTOR_NOMBRE}
                   </option>
                   {centros &&
                     centros.map((centro) => {
