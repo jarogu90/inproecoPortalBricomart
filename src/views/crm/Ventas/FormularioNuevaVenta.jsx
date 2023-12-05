@@ -124,96 +124,6 @@ const FormularioNuevaVenta = ({history}) => {
         setFileNamesB(fileNamesB.filter((item) => item !== name));
     };
 
-    // COGER VALORES INPUTS
-    /* const onChangeNif = (e) => {
-        let cif = e.target.value   
-        let validChars = 'TRWAGMYFPDXBNJZSQVHLCKET';
-        let nifRexp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-        let nieRexp = /^[XYZ]{1}[0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-        let str = cif.toString().toUpperCase();
-
-        if (!nifRexp.test(str) && !nieRexp.test(str)) {
-            setNifInvalido(true);
-            }
-
-        let nie = str
-            .replace(/^[X]/, '0')
-            .replace(/^[Y]/, '1')
-            .replace(/^[Z]/, '2');
-
-        let letter = str.substr(-1);
-        let charIndex = parseInt(nie.substr(0, 8)) % 23;
-
-        if (validChars.charAt(charIndex) === letter || cif === ""){
-            setNifInvalido(false);
-            setDatosForm({...datosForm, nif: e.target.value})
-        } else {
-            setNifInvalido(true);
-            
-        }
-
-    } */
-    /* const onChangeNif = (e) => {
-        let cif = e.target.value   
-        let DNI_REGEX = /^(\d{8})([A-Z])$/;
-        let CIF_REGEX = /^([ABCDEFGHJKLMNPQRSUVW])(\d{7})([0-9A-J])$/;
-        
-        cif = cif.toUpperCase();
-        if ( cif.match( DNI_REGEX ) ) {
-            setNifInvalido(false);
-            setDatosForm({...datosForm, nif: e.target.value})
-        let numero, lett, letra;
-        let expresion_regular_dni = /^[XYZ]?\d{5,8}[A-Z]$/;
-        
-            if(expresion_regular_dni.test(cif) === true){
-                numero = cif.substr(0,cif.length-1);
-                numero = numero.replace('X', 0);
-                numero = numero.replace('Y', 1);
-                numero = numero.replace('Z', 2);
-                lett = cif.substr(cif.length-1, 1);
-                numero = numero % 23;
-                letra = 'TRWAGMYFPDXBNJZSQVHLCKET';
-                letra = letra.substring(numero, numero+1);
-                if (letra != lett) {
-                    //Dni erroneo, la letra del NIF no se corresponde
-                    return false;
-                    
-                }else{
-                    //Dni correcto
-                    console.log(e.target.value);
-                    setDatosForm({...datosForm, nif: e.target.value})
-                    return true;
-                }
-
-            }else{
-                //Dni erroneo, formato no válido
-                return false;
-            }
-        }
-        else if ( cif.match( CIF_REGEX )) {     
-            let temp = cif
-            if (!/^[A-Za-z0-9]{9}$/.test(temp)){
-                
-                return false
-            }  else if (!/^[ABCDEFGHKLMNPQS]/.test(temp)){   
-                return false
-            } 
-            else{
-                setNifInvalido(false)
-                setDatosForm({...datosForm, nif: e.target.value})
-                return true;
-            } 
-        } 
-        else if (cif == ''){
-
-            setNifInvalido(false)
-
-        } else{
-            setNifInvalido(true)
-            return false
-        }
-    } */
-
     const onChangeNif = (e) => {
         let cif = e.target.value 
 
@@ -716,7 +626,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={4}>
                                     <FormGroup>
-                                        <Label>Almacén*</Label>
+                                        <Label>Tienda*</Label>
                                         <Input
                                         type="select"
                                         onChange={onChangeCentro}

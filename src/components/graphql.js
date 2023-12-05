@@ -40,7 +40,7 @@ export const getMunicipiosByProvincia = gql`
 
 export const getCentros = gql`
   query centros {
-    getCentroProductor(where: { CLIENTE_ID: "25" }) {
+    getCentroProductor(where: { CLIENTE_ID: "23" }) {
       ID
       DENOMINACION
     }
