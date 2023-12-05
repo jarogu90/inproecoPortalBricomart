@@ -644,6 +644,37 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                             </Row>
                             <Row form>
+                                <Col md={2}>
+                                    
+                                        <Label>Instalacion Propia</Label>
+                                        </Col>
+                                        <Col md={1}>
+                                        <FormGroup>
+
+                                        <Input
+                                        
+                                        type="radio"
+                                        name="instalacionpropia"
+                                        value="1"
+                                        onChange={() => setDatosForm({...datosForm, instalacion_propia: 1})}
+                                        />SI
+                                        </FormGroup>
+                                        </Col>
+                                        <Col md={1}>
+                                        <FormGroup>
+                                        <Input
+                                        type="radio"
+                                        
+                                        name="instalacionpropia"
+                                        value="0"
+                                        onChange={() => setDatosForm({...datosForm, instalacion_propia: 0})}
+                                        />
+                                        NO
+                                    </FormGroup>
+                                </Col>
+                                                                           
+                            </Row>
+                            <Row form>
                                 <Col md={3}>
                                     <FormGroup>
                                         <Label>Fecha Venta <span style={{ color: 'red' }}>*</span></Label>
