@@ -8,7 +8,6 @@ import { GlobalStateContext } from "../../../context/GlobalContext";
 
 const RowVentaActions = (props) => {
   const { user } = useContext(GlobalStateContext);
-
   return (
     <>
       <td

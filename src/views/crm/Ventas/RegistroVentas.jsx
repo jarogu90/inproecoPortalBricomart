@@ -5,7 +5,7 @@ import { FilteringState, IntegratedFiltering } from "@devexpress/dx-react-grid";
 import { REGISTRO_VENTAS_COLUMNS, REGISTRO_VENTAS_EXPORT_COLUMNS } from '../../../components/constants';
 
 //graphql
-import { client, getVentasByCentro, getVentasAllCentros } from '../../../components/graphql';
+import { client, getVentasByCentro, getVentasAllCentros, getVentasByCentroLM } from '../../../components/graphql';
 
 // context
 import { GlobalStateContext } from "../../../context/GlobalContext";
@@ -29,7 +29,7 @@ const RegistroVentas = () => {
         let centro = `{ "centro_id": { "_eq": "${centroId}" } }`
         client
             .query({
-                query: getVentasByCentro,
+                query: getVentasByCentroLM,
                 fetchPolicy: "no-cache",
                 variables: {
                     limit: 500,

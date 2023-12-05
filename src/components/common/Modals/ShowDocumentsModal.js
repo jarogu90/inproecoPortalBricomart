@@ -17,7 +17,7 @@ const ShowDocumentsModal = ({ showDocumentsModal, toggle, retirada }) => {
 
   const fetchDocument = async (url) => {
     let fetchDocument = await fetch(
-      `${API_INPRONET}/downloadbrico.php?filename=${url}`
+      `${API_INPRONET}/download.php?filename=${url}`
     );
     console.log(fetchDocument)
     if(fetchDocument == null) {

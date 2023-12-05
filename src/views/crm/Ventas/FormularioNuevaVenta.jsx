@@ -327,36 +327,70 @@ const FormularioNuevaVenta = ({history}) => {
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-        let queryString = await setMutationString()
-        queryString = JSON.parse(queryString)
-        let ventaId;
-        const parteAId = await saveDocuments(newFiles, fileNames, "Bricomart Parte A")
-        if(!parteAId) {
-            toggleVentaErrorDocument()
-            return
+
+        // Enviar datos a la API usando FormData con todos los inputs del formulario
+        const formData = new FormData();
+        formData.append("accion", "guardarRetiradaLeroyInstalaciones");
+        // Añadir inputs del formulario
+        for (const key in datosForm) {
+            formData.append(key, datosForm[key]);
         }
-        let parteBId = "";
-        if(fileNamesB.length > 0) {
-            parteBId = await saveDocuments(newFilesB, fileNamesB, "Bricomart Parte B")    
-        }
-        //queryString.id = newId
-        await client
-                .mutate({
-                    mutation: insertVentaBricomart,
-                    variables: {
-                        fields: queryString
-                    }
-                })
-                .then(res => {
-                    ventaId = res.data.insert_ventas_bricomart.returning[0].id
-                })        
-        const pathParteA = await documentPath(parteAId)
-        let pathParteB;
-        if(parteBId) {
-            pathParteB = await documentPath(parteBId)
-        }
-        const isUpdated = await updateRutaVentaDocumento(ventaId, pathParteA, pathParteB)
-        if(isUpdated === 1) toggleVentaSuccess()
+
+        
+
+
+        const requestOptions = {
+            method: 'POST',
+            body: formData
+        };
+        fetch(`${API_INPRONET}/core/controller/LeroyInstalacionesController.php`, requestOptions)
+          .then(response => response.text())
+          .then(data => {
+            if(data === "OK") {
+                //uploadDocuments()
+                toggleVentaSuccess()
+            } else {
+                toggleVentaErrorDocument()
+            }
+          })
+          .catch(err => {
+              console.log(err)
+              if(err){
+                toggleVentaErrorDocument()
+              }
+        }) 
+     
+
+        // let queryString = await setMutationString()
+        // queryString = JSON.parse(queryString)
+        // let ventaId;
+        // const parteAId = await saveDocuments(newFiles, fileNames, "Bricomart Parte A")
+        // if(!parteAId) {
+        //     toggleVentaErrorDocument()
+        //     return
+        // }
+        // let parteBId = "";
+        // if(fileNamesB.length > 0) {
+        //     parteBId = await saveDocuments(newFilesB, fileNamesB, "Bricomart Parte B")    
+        // }
+        // //queryString.id = newId
+        // await client
+        //         .mutate({
+        //             mutation: insertVentaBricomart,
+        //             variables: {
+        //                 fields: queryString
+        //             }
+        //         })
+        //         .then(res => {
+        //             ventaId = res.data.insert_ventas_bricomart.returning[0].id
+        //         })        
+        // const pathParteA = await documentPath(parteAId)
+        // let pathParteB;
+        // if(parteBId) {
+        //     pathParteB = await documentPath(parteBId)
+        // }
+        // const isUpdated = await updateRutaVentaDocumento(ventaId, pathParteA, pathParteB)
+        // if(isUpdated === 1) toggleVentaSuccess()
     }
 
     const documentPath = async (id) => {
@@ -406,7 +440,7 @@ const FormularioNuevaVenta = ({history}) => {
                 <section className="box">
                     <div className= "content-body">
                         <h2>Registro Nueva Venta</h2>
-                        <Form onSubmit={onSubmitForm}>
+                        <Form id="datosVenta" onSubmit={onSubmitForm}>
                             <Row form>
                                 <Col md={2}>
                                     <FormGroup>

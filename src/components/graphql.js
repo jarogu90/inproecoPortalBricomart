@@ -83,6 +83,15 @@ export const getVentasByCentro = gql`
     }
   }
 `;
+
+export const getRetiradaDocumentosId = gql`
+  query documentos($retiradaId: String!) {
+    getLeroyInstalacionesLeroyInstalacionesDocumento(where: { LEROY_INSTALACION_ID: $retiradaId }) {
+      LEROY_INSTALACIONES_DOCUMENTO_ID
+    }
+  }
+`;
+
 export const getVentasByCentroLM = gql`
   query ventas($centroId: String!, $limit: Int) {
     getLeroyInstalacionesView(limit: $limit,orderBy: {ID: desc}, where: { CENTRO_PRODUCTOR_ID: { _eq: $centroId } }) {
@@ -276,10 +285,11 @@ export const getDocumentosByRetiradaId = gql`
 
 export const getDocumentosById = gql`
   query documentos($id: String!) {
-    getDocumento(where: { ID: $id }) {
+    getLeroyInstalacionesDocumento(where: { ID: $id }) {
       ID
       NOMBRE
       RUTA
+      TIPO_DOCUMENTO_ID
     }
   }
 `;
@@ -837,12 +847,13 @@ export const GET_ESTADO_BY_ID = gql`
 `;
 export const GET_TIPO_DOCUMENTOS = gql`
   query tipo_documentos {
-    getTipoDocumento {
+    getLeroyInstalacionesTipoDocumento {
       ID
-      nombre: NOMBRE
+      NOMBRE
     }
   }
 `;
+
 // MULTIQUERY PARA OBTENER TODO LO NECESARIO
 export const GET_RETIRADA_COLS = gql`
   query residuos(

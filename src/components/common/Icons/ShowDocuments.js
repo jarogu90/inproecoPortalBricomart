@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ShowDocumentsModal from "../Modals/ShowDocumentsModal";
+import ShowDocumentosModal from "../Modals/ShowDocumentosModal";
 
 const ShowDocuments = ({ row }) => {
   const [showDocumentsModal, setShowDocumentsModal] = useState(false);
@@ -20,7 +20,7 @@ const ShowDocuments = ({ row }) => {
         onClick={toggleShowDocumentsModal}
       />
       {showDocumentsModal ? (
-        <ShowDocumentsModal
+        <ShowDocumentosModal
           showDocumentsModal={showDocumentsModal}
           toggle={toggleShowDocumentsModal}
           retirada={row}

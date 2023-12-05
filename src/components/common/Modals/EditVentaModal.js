@@ -114,33 +114,6 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
   };
 
   // COGER VALORES INPUTS
-  /* const onChangeNif = (e) => {
-    setDatosForm({ ...datosForm, nif: e.target.value });
-    let cif = e.target.value;
-    let validChars = "TRWAGMYFPDXBNJZSQVHLCKET";
-    let nifRexp = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-    let nieRexp = /^[XYZ]{1}[0-9]{7}[TRWAGMYFPDXBNJZSQVHLCKET]{1}$/i;
-    let str = cif.toString().toUpperCase();
-
-    if (!nifRexp.test(str) && !nieRexp.test(str)) {
-      setNifInvalido(true);
-    }
-
-    let nie = str
-      .replace(/^[X]/, "0")
-      .replace(/^[Y]/, "1")
-      .replace(/^[Z]/, "2");
-
-    let letter = str.substr(-1);
-    let charIndex = parseInt(nie.substr(0, 8)) % 23;
-
-    if (validChars.charAt(charIndex) === letter || cif === "") {
-      setNifInvalido(false);
-      setDatosForm({ ...datosForm, nif: e.target.value });
-    } else {
-      setNifInvalido(true);
-    }
-  }; */
 
   const onChangeNif = (e) => {
         setDatosForm({ ...datosForm, nif: e.target.value });
