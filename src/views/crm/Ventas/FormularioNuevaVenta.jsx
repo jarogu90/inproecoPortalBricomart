@@ -410,7 +410,7 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={2}>
                                     <FormGroup>
-                                        <Label>NIF/NIE</Label>
+                                        <Label>NIF/NIE <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
                                         onChange={onChangeNif}
@@ -464,7 +464,7 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={3}>
                                     <FormGroup>
-                                        <Label>Tipo de Vía</Label>
+                                        <Label>Tipo de Vía <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
                                         onChange={onChangeTipoVia}
@@ -473,7 +473,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={4}>
                                     <FormGroup>
-                                        <Label>Nombre Vía</Label>
+                                        <Label>Nombre Vía <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
                                         onChange={onChangeNombreVia}
@@ -482,7 +482,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={1}>
                                     <FormGroup>
-                                        <Label>Número</Label>
+                                        <Label>Número <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
                                         onChange={onChangeNumero}
@@ -509,7 +509,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={2}>
                                     <FormGroup>
-                                        <Label>Código Postal</Label>
+                                        <Label>Código Postal <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
                                         onChange={onChangeCodigoPostal}
@@ -554,7 +554,7 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={6}>
                                     <FormGroup>
-                                        <Label>Marca</Label>
+                                        <Label>Marca <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
                                         onChange={onChangeMarca}
@@ -563,7 +563,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={6}>
                                     <FormGroup>
-                                        <Label>Modelo</Label>
+                                        <Label>Modelo <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
                                         onChange={onChangeModelo}
@@ -574,7 +574,7 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={3}>
                                     <FormGroup>
-                                        <Label>Referencia</Label>
+                                        <Label>Referencia <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
                                         onChange={onChangeReferencia}
@@ -612,7 +612,7 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={3}>
                                     <FormGroup>
-                                        <Label>Fecha Venta*</Label>
+                                        <Label>Fecha Venta <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="date"
                                         placeholder="date placeholder"
@@ -626,7 +626,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={4}>
                                     <FormGroup>
-                                        <Label>Tienda*</Label>
+                                        <Label>Tienda <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="select"
                                         onChange={onChangeCentro}
@@ -642,7 +642,7 @@ const FormularioNuevaVenta = ({history}) => {
                                             })}
                                         </Input>
                                         {!almacen ? (
-                                                    <div>Por favor, seleccione un almacén</div>
+                                                    <div>Por favor, seleccione una tienda</div>
                                                 ) : (<></>)
                                             }
                                     </FormGroup>
