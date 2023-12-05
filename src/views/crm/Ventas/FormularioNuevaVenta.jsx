@@ -648,7 +648,7 @@ const FormularioNuevaVenta = ({history}) => {
                                     </FormGroup>
                                 </Col>
                             </Row>
-                            <Row form>
+                            {/* <Row form>
                                 <Col md={4}>
                                 <Label>Añadir parte A*:</Label>
                                 <Dropzone onDrop={onDropA}>
@@ -683,22 +683,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         {fileNames.map((fileName) => (
                                         <li key={fileName.NOMBRE}>
                                             <span className="filename-list">{fileName.NOMBRE}</span>
-                                            {/* {fileName.IS_NEW ? (
-                                            <select
-                                                name={fileName.NOMBRE}
-                                                value={fileName.TIPO_DOCUMENTO_ID}
-                                                style={{ width: "280px" }}
-                                                onChange={changeType}
-                                            >
-                                                {tipoDocumentos.map(({ ID, nombre }) => (
-                                                <option key={ID} value={ID}>
-                                                    {nombre}
-                                                </option>
-                                                ))}
-                                            </select>
-                                            ) : (
-                                            <button>{fileName.TIPO_DOCUMENTO[0].NOMBRE}</button>
-                                            )} */}
+
                                             {fileName.IS_NEW && (
                                             <span
                                                 className="delete-document"
@@ -746,22 +731,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         {fileNamesB.map((fileName) => (
                                         <li key={fileName.NOMBRE}>
                                             <span className="filename-list">{fileName.NOMBRE}</span>
-                                            {/* {fileName.IS_NEW ? (
-                                            <select
-                                                name={fileName.NOMBRE}
-                                                value={fileName.TIPO_DOCUMENTO_ID}
-                                                style={{ width: "280px" }}
-                                                onChange={changeType}
-                                            >
-                                                {tipoDocumentos.map(({ ID, nombre }) => (
-                                                <option key={ID} value={ID}>
-                                                    {nombre}
-                                                </option>
-                                                ))}
-                                            </select>
-                                            ) : (
-                                            <button>{fileName.TIPO_DOCUMENTO[0].NOMBRE}</button>
-                                            )} */}
+
                                             {fileName.IS_NEW && (
                                             <span
                                                 className="delete-document"
@@ -775,7 +745,7 @@ const FormularioNuevaVenta = ({history}) => {
                                     </ul>
                                     </div>
                                 </Col>
-                            </Row>
+                            </Row> */}
                             <Row form> 
                                 <Col md={2}>
                                     {nifInvalido || !almacen || !fecha ? (
