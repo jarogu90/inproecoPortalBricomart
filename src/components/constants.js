@@ -8,7 +8,7 @@ export const API_INPRONET = "https://api.dev.inpronet.es/inproecoweb2_0";
 // CONSTANTES PARA BRICOMART
 
 export const REGISTRO_VENTAS_COLUMNS = [
-  { name: "ID", title: "ID" },
+  { name: "CODIGO_VENTA", title: "Codigo Venta" },
   { name: "CENTRO_PRODUCTOR_NOMBRE", title: "Centro" },
   { name: "FECHA_VENTA_ORDEN", title: "Fecha compra" },
   { name: "NIF", title: "Nif" },
@@ -25,7 +25,7 @@ export const REGISTRO_VENTAS_COLUMNS = [
 ];
 
 export const REGISTRO_VENTAS_EXPORT_COLUMNS = [
-  { name: "id", title: "ID" },
+  { name: "CODIGO_VENTA", title: "Codigo Venta" },
   { name: "centro", title: "Centro" },
   { name: "nif", title: "Nif" },
   { name: "nombre", title: "Nombre" },
