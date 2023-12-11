@@ -650,7 +650,7 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={2}>
                                     
-                                        <Label>Instalacion Propia</Label>
+                                        <Label>Instalacion Propia <span style={{ color: 'red' }}>*</span></Label>
                                         </Col>
                                         <Col md={1}>
                                         <FormGroup>
@@ -676,7 +676,16 @@ const FormularioNuevaVenta = ({history}) => {
                                         NO
                                     </FormGroup>
                                 </Col>
-                                                                           
+                                <Col md={3}>
+                                    <FormGroup>
+                                        <Label>Número de pedido</Label>
+                                        <Input
+                                        type="text"
+                                        name="numeropedido"
+                                        onChange={(e) => setDatosForm({...datosForm, numeropedido: e.target.value})}
+                                        />
+                                    </FormGroup>
+                                </Col>                                    
                             </Row>
                             <Row form>
                                 <Col md={3}>

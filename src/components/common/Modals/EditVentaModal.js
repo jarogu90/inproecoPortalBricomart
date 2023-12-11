@@ -617,6 +617,75 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
             </Col>
           </Row>
           <Row form>
+                                <Col md={2}>
+                                    
+                                        <Label>Instalacion Propia <span style={{ color: 'red' }}>*</span></Label>
+                                        </Col>
+                                        <Col md={1}>
+                                        <FormGroup>
+
+                                        <Input
+                                        
+                                        type="radio"
+                                        name="instalacionpropia"
+                                        value="1"
+                                        onChange={() => setDatosForm({...datosForm, instalacion_propia: 1})}
+                                        />SI
+                                        </FormGroup>
+                                        </Col>
+                                        <Col md={1}>
+                                        <FormGroup>
+                                        <Input
+                                        type="radio"
+                                        
+                                        name="instalacionpropia"
+                                        value="0"
+                                        onChange={() => setDatosForm({...datosForm, instalacion_propia: 0})}
+                                        />
+                                        NO
+                                    </FormGroup>
+                                </Col>
+                                <Col md={3}>
+                                    <FormGroup>
+                                        <Label>Número de pedido</Label>
+                                        <Input
+                                        type="text"
+                                        name="numeropedido"
+                                        onChange={(e) => setDatosForm({...datosForm, numeropedido: e.target.value})}
+                                        />
+                                    </FormGroup>
+                                </Col>                                          
+                            </Row>
+                            <Row form>
+                                <Col md={2}>
+                                  <FormGroup>
+                                    <Label>Estado</Label>
+                                    <Input
+                                      type="select"
+                                      onChange={(e) =>
+                                        setDatosForm({
+                                          ...datosForm,
+                                          estado_venta: e.target.value,
+                                        })
+                                      }
+                                      value={
+                                        datosForm.estado_venta
+                                          ? datosForm.estado_venta
+                                          : ""
+                                      }
+                                    >
+                                      <option selected value="1">
+                                        {" "}
+                                        {datosForm.estado_venta}
+                                      </option>
+                                      <option value="1">Devuelto</option>
+                                      <option value="2">Anulado</option>
+                                      </Input>
+                                      </FormGroup>
+                                </Col>
+                            </Row>
+
+          <Row form>
             <Col md={6}>
               <FormGroup>
                 <Label>Fecha Venta</Label>
