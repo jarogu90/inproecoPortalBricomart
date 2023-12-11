@@ -339,7 +339,7 @@ const Layout = ({
 
   useEffect(() => {
     if (filtersApplied.length > 0) {
-      dataCountFilter();
+     // dataCountFilter();
     }
   }, [loadDataFilter]);
 

@@ -35,7 +35,8 @@ const FormularioNuevaVenta = ({history}) => {
     // MODALES
     const [ventaSuccess, setVentaSuccess] = useState(false);
     const [ventaErrorDocument, setVentaErrorDocument] = useState(false)
-
+    const [linkA, setLinkA] = useState()
+    const [linkB, setLinkB] = useState()
     const toggleVentaSuccess = () => {
         setVentaSuccess(!ventaSuccess)
     }
@@ -335,7 +336,8 @@ const FormularioNuevaVenta = ({history}) => {
         for (const key in datosForm) {
             formData.append(key, datosForm[key]);
         }
-
+        // Pedimos una respuesta textual
+        formData.append("direct", "true");
         
 
 
@@ -344,10 +346,12 @@ const FormularioNuevaVenta = ({history}) => {
             body: formData
         };
         fetch(`${API_INPRONET}/core/controller/LeroyInstalacionesController.php`, requestOptions)
-          .then(response => response.text())
+          .then(response => response.json())
           .then(data => {
-            if(data === "OK") {
+            if(data.resultado === "OK") {
                 //uploadDocuments()
+                setLinkA(data.linkDocumentoA)
+                setLinkB(data.linkDocumentoB)
                 toggleVentaSuccess()
             } else {
                 toggleVentaErrorDocument()
@@ -830,7 +834,7 @@ const FormularioNuevaVenta = ({history}) => {
             </div>
             {/* MODALES */}
             {ventaSuccess ? (
-                    <VentaSuccessModal ventaSuccess={ventaSuccess} toggle={toggleVentaSuccess} redirectToVentas={redirectToVentas} />
+                    <VentaSuccessModal ventaSuccess={ventaSuccess} toggle={toggleVentaSuccess} redirectToVentas={redirectToVentas} linkA={linkA} linkB={linkB}/>
                 ) : (<></>)
             }
             {ventaErrorDocument ? (
