@@ -14,6 +14,7 @@ const Login = (props) => {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()
     const [userInvalid, setUserInvalid] = useState()
+    const [passwordType, setPasswordType] = useState("password");
 
     const onChangeUsername = (e) => {
       setUsername(e.target.value)
@@ -22,7 +23,14 @@ const Login = (props) => {
     const onChangePassword = (e) => {
       setPassword(e.target.value)
     }
-
+    const togglePassword =()=>{
+      if(passwordType==="password")
+      {
+       setPasswordType("text")
+       return;
+      }
+      setPasswordType("password")
+  }
     const onSubmit = (e) => {
         e.preventDefault()
         
@@ -79,7 +87,9 @@ const Login = (props) => {
           </div>
 
           <div>
-            <input className="input" placeholder="Contraseña" type="password" id="password" name="password" onChange={onChangePassword}/>
+          <input className="input" placeholder="Contraseña" type={passwordType} id="password" name="password" onChange={onChangePassword}/>
+            <i className="oi oi-eye" id="togglePassword" onMouseEnter={togglePassword} onMouseLeave={togglePassword} style={{marginLeft: "-30px", cursor: "pointer"}}></i>
+
           </div>
           {/* <div className="contraseña">
             Recordar mi contraseña
