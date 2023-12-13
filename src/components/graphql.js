@@ -204,8 +204,8 @@ export const getVentasByCentroNombre = gql`
 `;
 
 export const getVentasAllCentros = gql`
-  query ventas($fields: leroyInstalacionesViewWhereInput) {
-    getLeroyInstalacionesView(limit: 10, where: $fields,orderBy: {FECHA_VENTA_ORDEN: desc}) {
+  query ventas($fields: leroyInstalacionesViewWhereInput, $limit: Int) {
+    getLeroyInstalacionesView(limit: $limit, where: $fields,orderBy: {FECHA_VENTA_ORDEN: desc}) {
       ID
       APELLIDO1
       APELLIDO2
