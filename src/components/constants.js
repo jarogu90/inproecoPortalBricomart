@@ -10,13 +10,13 @@ export const API_INPRONET = "https://api.dev.inpronet.es/inproecoweb2_0";
 export const REGISTRO_VENTAS_COLUMNS = [
   { name: "CODIGO_VENTA", title: "Codigo Venta" },
   { name: "CENTRO_PRODUCTOR_NOMBRE", title: "Centro" },
-  { name: "FECHA_VENTA_ORDEN", title: "Fecha compra" },
+  { name: "FECHA_VENTA", title: "Fecha compra" },
   { name: "NIF", title: "Nif" },
   { name: "NOMBRE", title: "Nombre" },
   { name: "APELLIDO1", title: "Apellido 1" },
   { name: "APELLIDO2", title: "Apellido 2" },
   { name: "NOMBRE_VIA", title: "Calle" },
-  { name: "LOCALIDAD", title: "Localidad" },
+  { name: "LOCALIDAD_NOMBRE", title: "Localidad" },
   { name: "MARCA", title: "Marca" },
   { name: "MODELO", title: "Modelo" },
   { name: "NUMERO_SERIE", title: "Nº de Serie" },
@@ -26,29 +26,19 @@ export const REGISTRO_VENTAS_COLUMNS = [
 
 export const REGISTRO_VENTAS_EXPORT_COLUMNS = [
   { name: "CODIGO_VENTA", title: "Codigo Venta" },
-  { name: "centro", title: "Centro" },
-  { name: "nif", title: "Nif" },
-  { name: "nombre", title: "Nombre" },
-  { name: "apellido1", title: "Apellido1" },
-  { name: "apellido2", title: "Apellido2" },
-  { name: "razon_social", title: "Razon Social" },
-  { name: "tipo_via", title: "Tipo Via" },
-  { name: "nombre_via", title: "Nombre Via" },
-  { name: "numero", title: "Numero" },
-  { name: "piso", title: "Piso" },
-  { name: "puerta", title: "Puerta" },
-  { name: "codigo_postal", title: "Codigo Postal" },
-  { name: "localidad", title: "Localidad" },
-  { name: "provincia", title: "Provincia" },
-  { name: "marca", title: "Marca" },
-  { name: "modelo", title: "Modelo" },
-  { name: "referencia", title: "Referencia" },
-  { name: "numero_serie", title: "Numero Serie" },
-  { name: "cantidad", title: "Cantidad" },
-  { name: "tipo_gas", title: "Tipo Gas" },
-  { name: "estado", title: "Estado" },
-  { name: "fecha_venta", title: "Fecha compra" },
-  { name: "centro", title: "Almacén" },
+  { name: "CENTRO_PRODUCTOR_NOMBRE", title: "Centro" },
+  { name: "FECHA_VENTA", title: "Fecha compra" },
+  { name: "NIF", title: "Nif" },
+  { name: "NOMBRE", title: "Nombre" },
+  { name: "APELLIDO1", title: "Apellido 1" },
+  { name: "APELLIDO2", title: "Apellido 2" },
+  { name: "NOMBRE_VIA", title: "Calle" },
+  { name: "LOCALIDAD_NOMBRE", title: "Localidad" },
+  { name: "MARCA", title: "Marca" },
+  { name: "MODELO", title: "Modelo" },
+  { name: "NUMERO_SERIE", title: "Nº de Serie" },
+  { name: "REFERENCIA", title: "Referencia" },
+  { name: "ESTADO_NOMBRE", title: "Estado" },
 ];
 
 // FIN CONSTANTES BRICOMART
@@ -119,6 +109,25 @@ export const compareDates = (firstDate, secondDate) => {
   }
   return dateA < dateB ? -1 : 1;
 };
+
+export const compareTimestamps = (firstDate, secondDate) => {
+  if (firstDate == null) {
+    firstDate = "1915/01/01";
+  }
+  if (secondDate == null) {
+    secondDate = "1915/01/01";
+  }
+
+  const dateA = new Date(firstDate);
+  const dateB = new Date(secondDate);
+
+  if (dateA == dateB) {
+    return 0;
+  }
+  return dateA < dateB ? -1 : 1;
+
+  
+}
 
 export const setMonth = (monthNumber) => {
   switch (monthNumber) {

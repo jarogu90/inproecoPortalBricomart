@@ -16,6 +16,8 @@ import {
   PagingState,
   IntegratedPaging,
 } from "@devexpress/dx-react-grid";
+import { DataTypeProvider } from '@devexpress/dx-react-grid';
+
 import { SearchPanel } from "@devexpress/dx-react-grid-bootstrap4";
 import {
   Grid,
@@ -43,7 +45,7 @@ import RowVentaActions from "../Icons/RowVentaActions";
 import ClearFilters from "../Filters/ClearFilters";
 
 // CONSTANTS
-import { compareDates } from "./../../constants";
+import { compareDates, compareTimestamps } from "./../../constants";
 
 // CONTEXT
 import {
@@ -86,16 +88,19 @@ const Layout = ({
   const [count, setCount] = useState(null);
   const [pageSizes] = React.useState([5, 10, 15]);
   /* const [filtersApplied, setFiltersApplied] = useState([]); */
-
+  const [dateColumns] = useState(['FECHA_VENTA']);
   // SORTING DE FECHAS
   const [integratedSortingColumnExtensions] = useState([
-    { columnName: "fecha_venta", compare: compareDates },
+    { columnName: "FECHA_SOLICITUD", compare: compareDates },
+    { columnName: "FECHA_VENTA", compare: compareTimestamps },
+
   ]);
 
   const [tableColumnExtensions] = useState([
-    { columnName: "numero_serie", width: "210px" },
+    { columnName: "NUMERO_SERIE", width: "210px" },
   ]);
 
+  
   // FILTRO COLUMNA
   const columnFilterMultiPredicate = (value, filter, row) => {
     if (!filter.value.length) return true;
@@ -105,10 +110,26 @@ const Layout = ({
 
     return IntegratedFiltering.defaultPredicate(value, filter, row);
   };
+const columnFilterDateTimePredicate = (value, filter, row) => {
+  // transformar el valor de la celda a un objeto Date
+  const date = new Date(value);
+  // transformar date a un string con formato DD/MM/YYYY
+  const dateString = date.toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
 
+  // obtener el valor del filtro
+  const { value: filterValue } = filter;
+  // si el filtro no tiene valor, devolver verdadero
+  if (!filterValue) return true;
+  // si la fecha es anterior al filtro, devolver falso
+  if (dateString.includes(filterValue)) return true;
+  // en cualquier otro caso, devolver verdadero
+  return false;
+
+}
   const [filteringColumnExtensions, setFilteringColumnExtensions] = useState([
     { columnName: "centro", predicate: columnFilterMultiPredicate },
     { columnName: "estado", predicate: columnFilterMultiPredicate },
+    {columnName: "FECHA_VENTA", predicate: columnFilterDateTimePredicate},
   ]);
 
   const [filteringStateColumnExtensions] = useState([
@@ -231,56 +252,19 @@ const Layout = ({
 
   };
 
-  const dataCountFilter = () => {
-    const queryString = loadDataFilter();
-    console.log(queryString);
-    client
-      .query({
-        query:
-          user.rolDesc !== "LEROY_INSTALACIONES_CENTRO" &&
-            user.rolDesc !== "INPROECO"
-            ? getVentasAllCentros
-            : getVentasByCentro,
-        fetchPolicy: "no-cache",
-        variables: {
-          fields: JSON.parse(queryString),
-        },
-      })
-      .then((res) => {
-        const results = res.data.getLeroyInstalacionesView.length;
-        setCount(results)
+  // const DateFormatter = ({ value }) => value.replace(/(\d{4})-(\d{2})-(\d{2})/, '$3.$2.$1');
 
-      });
+  const DateFormatter = ({ value }) => { 
+    let options = { year: "numeric", month: "2-digit", day: "2-digit" };
+    let date = new Date(value);
+    return date.toLocaleString("es-ES", options);
   };
-
-  const dataCount = () => {
-    let centro = `{ "centro_id": { "_eq": "${user.centroId}" } }`;
-    const queryString = loadDataFilter();
-    client
-      .query({
-        query:
-          user.rolDesc !== "LEROY_INSTALACIONES_CENTRO" &&
-            user.rolDesc !== "INPROECO"
-            ? getVentasAllCentros
-            : getVentasByCentro,
-        fetchPolicy: "no-cache",
-        variables:
-          user.rolDesc !== "BRICOMART_CENTRO" &&
-          user.rolDesc !== "BRICOMART_INPROECO_CENTRO"
-            ? {
-                fields: JSON.parse(queryString),
-              }
-            : {
-                fields: JSON.parse(centro),
-              },
-      })
-      .then((res) => {
-        const results = res.data.getLeroyInstalacionesView.length;
-        setCount(results)
-
-      });
-  };
-
+  const DateTypeProvider = props => (
+    <DataTypeProvider
+      formatterComponent={DateFormatter}
+      {...props}
+    />
+  );
   const fetchCentros = useCallback(async () => {
     let results = [];
     if (
@@ -402,6 +386,9 @@ const Layout = ({
                           />
                           <IntegratedPaging />
                           {children}
+                          <DateTypeProvider
+          for={dateColumns}
+        />
                           <VirtualTable
                             columnExtensions={tableColumnExtensions}
                           />
