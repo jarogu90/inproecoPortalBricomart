@@ -204,8 +204,11 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
     };
 
   const loadData = (excelExport = false) => {
-    //const queryString = getQueryString();
-    const queryString = loadDataFilter();
+    console.log("loading data")
+    console.log(lastQuery)
+    console.log(loading)
+    const queryString = getQueryString();
+    //const queryString = loadDataFilter();
     let limit = excelExport ? 10000 : 500;
     if (
       (queryString && excelExport) ||
@@ -413,7 +416,7 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
                           />
                           <TableRowDetail
                             toggleCellComponent={(props) => (
-                              <RowVentaActions {...props} />
+                              <RowVentaActions {...props} fetchVentas={fetchVentas}/>
                             )}
                           />
                           {/* INICIO RECOGER LAS LÍNEAS FILTRADAS */}

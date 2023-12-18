@@ -39,13 +39,14 @@ import { GlobalStateContext } from "../../../context/GlobalContext";
 // components
 import VentaErrorDocumentoModal from "../../../components/common/Modals/VentaErrorDocumentoModal";
 
-const EditVentaModal = ({ editVentaModal, toggle, row }) => {
+const EditVentaModal = ({ editVentaModal, toggle, row, fetchVentas }) => {
   const { loadVentas } = useContext(GlobalStateContext);
   const [provincias, setProvincias] = useState();
   const [localidades, setLocalidades] = useState();
   const [centros, setCentros] = useState();
   const [datosForm, setDatosForm] = useState(row);
   const [nifInvalido, setNifInvalido] = useState();
+  const [rowForm, setRowForm] = useState({ INSTALACION_PROPIA: row.INSTALACION_PROPIA, ESTADO_ID: row.ESTADO_ID });
   const [dateToShow, setdateToShow] = useState(
     row.fecha_venta ? row.fecha_venta.split("/").reverse().join("-") : null
   );
@@ -275,52 +276,27 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    console.log(JSON.parse(setMutationString()));
-    let updatedSale = false;
-    await client
-      .mutate({
-        mutation: updateVentaById,
-        variables: {
-          ventaId: row.id,
-          _set: JSON.parse(setMutationString()),
-        },
-      })
-      .then(async (res) => {
-        console.log(res.data.update_ventas_bricomart.affected_rows);
-        if (res.data.update_ventas_bricomart.affected_rows === 1) {
-          updatedSale = true;
-        } else {
-          console.log("error");
-        }
-      });
-    
-    /* REVISAR ESTE FIX QUE SOLUCIONA QUE NO SE SETEA EL ESTADO PARA PARTE A*/
-    if(updatedSale) await updateEstado(row.id, 2);
-    
-    if (updatedSale && existsParteB()) {
-      let pathParteB;
-      let parteBId = await saveDocuments(
-        newFilesB,
-        fileNamesB,
-        "Bricomart Parte B"
-      );
-      if (parteBId) {
-        pathParteB = await documentPath(parteBId);
-      }
-      const isUpdated = await updateRutaVentaDocumento(row.id, pathParteB);
-      if (isUpdated === 1) {
-        const estadoUpdated = await updateEstado(row.id, 3);
-        if (estadoUpdated === 1) {
-          loadVentas();
-          toggle();
-        }
-      } else {
-        console.log("estado no updated");
-      }
-    } else {
-      loadVentas();
+    // Enviar datos del formulario
+    const formData = new FormData();
+    formData.append("accion", "editarLeroyInstalaciones");
+    formData.append("instalacionpropia", e.target.elements.instalacion_propia.checked ? 1 : 0);
+    formData.append("devuelto", e.target.elements.devuelto.checked ? 1 : 0);
+    formData.append("instalacionId", row.ID);
+
+
+    const requestOptions = {
+      method: "POST",
+      body: formData,
+    };
+
+    const postVenta = await fetch(
+      `${API_INPRONET}/core/controller/LeroyInstalacionesController.php`,
+      requestOptions
+    );
+
+    fetchVentas();
       toggle();
-    }
+    
   };
 
   const documentPath = async (id) => {
@@ -375,6 +351,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
       });
     fetchProvincias();
     fetchCentros();
+    console.log(row)
   }, []);
 
   return (
@@ -383,27 +360,38 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
       <ModalBody>
         <Form onSubmit={onSubmitForm}>
           <Row form>
-            <Col md={5}>
-              <FormGroup>
-                <Label md={6}>INSTALACION PROPIA</Label>
-                <Input
-                  type="checkbox"
-                  onChange={onChangeNif}
-                  value={datosForm.instalacion_propia ? datosForm.instalacion_propia : ""}
-             
-                />
-              </FormGroup>
-            </Col>
-            <Col md={5}>
-              <FormGroup>
-                <Label md={4}>Devuelto</Label>
-                <Input
-                  type="checkbox"
-                  onChange={onChangeFullName}
-                  value={datosForm.devuelto ? datosForm.devuelto : ""}
-                />
-              </FormGroup>
-            </Col>
+          <Col md={5}>
+  <FormGroup>
+    <Label md={6}>INSTALACION PROPIA</Label>
+    <Input
+      id="instalacion_propia"
+      type="checkbox"
+      checked={rowForm.INSTALACION_PROPIA === 1}
+      onChange={() => {
+        setRowForm({
+          ...row,
+          INSTALACION_PROPIA: rowForm.INSTALACION_PROPIA === 1 ? 0 : 1,
+        });
+      }}
+    />
+  </FormGroup>
+</Col>
+<Col md={5}>
+  <FormGroup>
+    <Label md={4}>Devuelto</Label>
+    <Input
+      id="devuelto"
+      type="checkbox"
+      checked={rowForm.ESTADO_ID == 5}
+      onChange={() => {
+        setRowForm({
+          ...row,
+          ESTADO_ID: rowForm.ESTADO_ID == 5 ? 0 : 1,
+        });
+      }}
+    />
+  </FormGroup>
+</Col>
             </Row>
           <Row form>
             <Col md={2}>

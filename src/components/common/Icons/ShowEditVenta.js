@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import EditVentaModal from "../Modals/EditVentaModal";
 
-const ShowEditVenta = ({ row }) => {
+const ShowEditVenta = ({ row, fetchVentas }) => {
   const [editVentaModal, setEditVentaModal] = useState(false);
-
  const toggleEditVentaModal = () => {
      /* console.log(row.id); */
     setEditVentaModal(!editVentaModal);
@@ -23,6 +22,7 @@ const ShowEditVenta = ({ row }) => {
       />
      {editVentaModal ? (
         <EditVentaModal
+        fetchVentas={fetchVentas}
           editVentaModal={editVentaModal}
           toggle={toggleEditVentaModal}
           row={row}

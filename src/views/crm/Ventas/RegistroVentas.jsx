@@ -42,7 +42,6 @@ const RegistroVentas = () => {
                 setVentas(res.data.getLeroyInstalacionesView)
             })
     }, [client, getVentasByCentro])
-    console.log(lastQuery)
     const fetchVentasRoleCorporativo = useCallback(() => {
         client
             .query({
