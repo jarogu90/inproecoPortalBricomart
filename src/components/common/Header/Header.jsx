@@ -244,13 +244,12 @@ class Header extends React.Component{
                             </div>
     
     
-                                <Dropdown nav isOpen={this.state.messagesddOpen} toggle={(e) => this.messagesddToggle(e)} className="navbardd">
+                                {/* <Dropdown nav isOpen={this.state.messagesddOpen} toggle={(e) => this.messagesddToggle(e)} className="navbardd">
                                     <DropdownToggle caret nav>
                                         <i className="i-envelope"></i>
                                         <span className="badge badge-pill badge-primary">3</span>
                                     </DropdownToggle>
-                                    {/* <Messages messages={messages}/> */}
-                                </Dropdown>
+                                </Dropdown> */}
     
                                 {/* <Dropdown nav isOpen={this.state.notificationsddOpen} toggle={(e) => this.notificationsddToggle(e)} className="navbardd">
                                     <DropdownToggle caret nav>
