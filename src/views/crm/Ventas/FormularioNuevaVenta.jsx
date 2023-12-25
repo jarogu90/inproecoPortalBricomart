@@ -252,7 +252,7 @@ const FormularioNuevaVenta = ({history}) => {
                 }
             })
             .then(res => {
-                setDatosForm({...datosForm, centro_id: centroId, centro: res.data.getCentrosProductoresView[0].nombre})
+                setDatosForm({...datosForm, centro_id: centroId, tienda:centroId, centro: res.data.getCentrosProductoresView[0].nombre})
             })
     }
 
@@ -293,7 +293,7 @@ const FormularioNuevaVenta = ({history}) => {
     } */
 
     const onChangeCentro = (e) => {
-        setDatosForm({...datosForm, centro_id: e.target.value, centro: e.target.options[e.target.selectedIndex].text})
+        setDatosForm({...datosForm, centro_id: e.target.value, tienda: e.target.value, centro: e.target.options[e.target.selectedIndex].text})
         setAlmacen(true)
         //fetchZona(e.target.value)
     }

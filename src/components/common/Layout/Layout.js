@@ -228,7 +228,7 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
           },
         })
         .then((res) => {
-          const results = setEstadoName(res.data.ventas_bricomart);
+          const results = setEstadoName(res.data.getLeroyInstalacionesView);
           if (!excelExport) {
             setRows(results);
             setLastQuery(queryString);

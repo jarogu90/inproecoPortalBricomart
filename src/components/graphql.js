@@ -94,7 +94,7 @@ export const getRetiradaDocumentosId = gql`
 
 export const getVentasByCentroLM = gql`
   query ventas($centroId: String!, $limit: Int) {
-    getLeroyInstalacionesView(limit: $limit,orderBy: {ID: desc}, where: { CENTRO_PRODUCTOR_ID: { _eq: $centroId } }) {
+    getLeroyInstalacionesView(limit: $limit,orderBy: {ID: desc}, where: { CENTRO_PRODUCTOR_ID: $centroId }) {
       ID
       APELLIDO1
       APELLIDO2
@@ -120,7 +120,7 @@ export const getVentasByCentroLM = gql`
       RAZON_SOCIAL
       REFERENCIA
       TIPO_GAS
-      TIPO_VIA
+      TIPO_DE_VIA
       ZONA_ID
       TICKET_COMPRA
       VENTA_TELEFONICA

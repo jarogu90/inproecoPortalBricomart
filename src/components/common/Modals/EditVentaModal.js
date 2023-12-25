@@ -279,8 +279,12 @@ const EditVentaModal = ({ editVentaModal, toggle, row, fetchVentas }) => {
     // Enviar datos del formulario
     const formData = new FormData();
     formData.append("accion", "editarLeroyInstalaciones");
-    formData.append("instalacionpropia", e.target.elements.instalacion_propia.checked ? 1 : 0);
-    formData.append("devuelto", e.target.elements.devuelto.checked ? 1 : 0);
+    if(e.target.elements.instalacion_propia.checked){
+      formData.append("instalacionpropia", 1);
+    }
+    if(e.target.elements.devuelto.checked){
+      formData.append("devuelto", 1);
+    }
     formData.append("instalacionId", row.ID);
 
 
@@ -370,7 +374,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row, fetchVentas }) => {
       onChange={() => {
         setRowForm({
           ...row,
-          INSTALACION_PROPIA: rowForm.INSTALACION_PROPIA === 1 ? 0 : 1,
+          INSTALACION_PROPIA: rowForm.INSTALACION_PROPIA == 1 ? 0 : 1,
         });
       }}
     />
@@ -384,9 +388,10 @@ const EditVentaModal = ({ editVentaModal, toggle, row, fetchVentas }) => {
       type="checkbox"
       checked={rowForm.ESTADO_ID == 5}
       onChange={() => {
+        console.log(rowForm.ESTADO_ID)
         setRowForm({
           ...row,
-          ESTADO_ID: rowForm.ESTADO_ID == 5 ? 0 : 1,
+          ESTADO_ID: rowForm.ESTADO_ID == 5 ? 4 : 5,
         });
       }}
     />

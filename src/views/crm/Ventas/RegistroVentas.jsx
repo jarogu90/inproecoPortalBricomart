@@ -19,21 +19,22 @@ const RegistroVentas = () => {
     const columns = REGISTRO_VENTAS_COLUMNS;
     const [ventas, setVentas] = useState(null)
     const [lastQuery, setLastQuery] = useState();
-
+    console.log(user)
     const fetchVentas = () => {
         if(user.rolDesc === "LEROY_INSTALACIONES_CENTRO" || user.rolDesc === "INPROECO") fetchVentasRoleCentro()
         else fetchVentasRoleCorporativo()
     }
 
     const fetchVentasRoleCentro = useCallback(() => {
-        let centro = `{ "centro_id": { "_eq": "${centroId}" } }`
+        //let centro = `{ "CENTRO_ID": { "_eq": ${centroId} } }`
         client
             .query({
                 query: getVentasByCentroLM,
                 fetchPolicy: "no-cache",
                 variables: {
                     limit: 500,
-                    fields: JSON.parse(centro)
+                    //fields: JSON.parse(centro),
+                    centroId: centroId
                     /* centroId: centroId */
                 }
             })
@@ -59,6 +60,8 @@ const RegistroVentas = () => {
 
     const setEstadoName = (ventas) => {
         let results = []
+        console.log(ventas)
+        if(!ventas) return results;
         for(let i = 0; i < ventas.length; i++){
             if(ventas[i].estado_venta) ventas[i].estado = ventas[i].estado_venta.nombre
             results.push(ventas[i])
