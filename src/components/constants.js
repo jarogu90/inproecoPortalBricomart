@@ -21,6 +21,7 @@ export const REGISTRO_VENTAS_COLUMNS = [
   { name: "MODELO", title: "Modelo" },
   { name: "NUMERO_SERIE", title: "Nº de Serie" },
   { name: "REFERENCIA", title: "Referencia" },
+  { name: "NUMERO_PEDIDO", title: "Pedido" },
   { name: "ESTADO_NOMBRE", title: "Estado" },
 ];
 

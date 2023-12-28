@@ -123,7 +123,6 @@ export const getVentasByCentroLM = gql`
       TIPO_DE_VIA
       ZONA_ID
       TICKET_COMPRA
-      VENTA_TELEFONICA
       INSTALACION_PROPIA
       CODIGO_VENTA
       ZONA_NOMBRE
