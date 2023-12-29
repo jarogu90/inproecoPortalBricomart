@@ -680,6 +680,8 @@ const FormularioNuevaVenta = ({history}) => {
                                     <FormGroup>
                                         <Label>Número de pedido</Label>
                                         <Input
+                                                required={datosForm.instalacion_propia == 1}
+
                                         type="text"
                                         name="numeropedido"
                                         onChange={(e) => setDatosForm({...datosForm, numeropedido: e.target.value})}
