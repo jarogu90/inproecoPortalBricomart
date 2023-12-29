@@ -370,10 +370,10 @@ const EditVentaModal = ({ editVentaModal, toggle, row, fetchVentas }) => {
     <Input
       id="instalacion_propia"
       type="checkbox"
-      checked={rowForm.INSTALACION_PROPIA === 1}
+      checked={rowForm.INSTALACION_PROPIA == 1}
       onChange={() => {
         setRowForm({
-          ...row,
+          ...rowForm,
           INSTALACION_PROPIA: rowForm.INSTALACION_PROPIA == 1 ? 0 : 1,
         });
       }}
@@ -390,7 +390,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row, fetchVentas }) => {
       onChange={() => {
         console.log(rowForm.ESTADO_ID)
         setRowForm({
-          ...row,
+          ...rowForm,
           ESTADO_ID: rowForm.ESTADO_ID == 5 ? 4 : 5,
         });
       }}
