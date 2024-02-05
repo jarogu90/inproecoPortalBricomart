@@ -1,5 +1,13 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  FormText,
+  Col, Row, Form, FormGroup, Label, Input,
+} from "reactstrap";
 import {
   client,
   getRetiradaDocumentosId,
@@ -9,6 +17,7 @@ import {
 import { API_INPRONET } from "./../../constants";
 import ShowDocumentsModal from "./ShowDocumentsModal";
 
+import Dropzone from "react-dropzone";
 const ShowDocumentosModal = ({
   retiradaId,
   estado,
@@ -19,9 +28,15 @@ const ShowDocumentosModal = ({
   toggle, 
   retirada
 }) => {
+
   const [documentosAsociadosRetirada, setDocumentosAsociadosRetirada] =
     useState([]);
-
+    const [fileNames, setFileNames] = useState([]);
+    const [newFiles, setNewFiles] = useState([]);
+    const [uploadFiles, setUploadFiles] = useState([]);
+    const [fileNamesB, setFileNamesB] = useState([]);
+    const [newFilesB, setNewFilesB] = useState([]);
+    const [uploadFilesB, setUploadFilesB] = useState([]);
   const [documentosCentro, setDocumentosCentro] = useState();
   const [documentosGestor, setDocumentosGestor] = useState();
   const [documentosTransportista, setDocumentosTransportista] = useState();
@@ -78,7 +93,6 @@ const ShowDocumentosModal = ({
           arrayDocumentos.push(res.data.getLeroyInstalacionesDocumento[0]);
         });
     }
-    console.log("tipoDocumentos", tipoDocumentos)
     // Añadir nombre del tipo de documento segun el tipo de documento id
     for (let i = 0; i < arrayDocumentos.length; i++) {
       for (let j = 0; j < tipoDocumentos.length; j++) {
@@ -91,7 +105,6 @@ const ShowDocumentosModal = ({
         }
       }
     }
-    console.log(arrayDocumentos);
     setDocuments(arrayDocumentos);
   };
 
@@ -121,7 +134,103 @@ const ShowDocumentosModal = ({
 //         );
 //       });
 //   };
+const onDropA = useCallback((acceptedFiles) => {
+  setNewFiles(newFiles.concat(acceptedFiles));
+  let newFileNames = [];
+  // REVISAR FIX PARA AÑADIR ESTADO
+  //setDatosForm({...datosForm, estado_id: 2})
+  
+  acceptedFiles.forEach((file) => {
+    newFileNames.push({
+      NOMBRE: file.name,
+      RUTA: "",
+      TIPO_DOCUMENTO_ID: "",
+      IS_NEW: true,
+    });
+  });
+  const files = fileNames.concat(newFileNames);
+  setFileNames(files);
+  setUploadFiles(acceptedFiles); 
+});
 
+const onDropB = useCallback((acceptedFiles) => {
+  setNewFilesB(newFilesB.concat(acceptedFiles));
+  let newFileNames = [];
+  // REVISAR FIX PARA AÑADIR ESTADO
+  //setDatosForm({...datosForm, estado_id: 3})
+
+  acceptedFiles.forEach((file) => {
+    newFileNames.push({
+      NOMBRE: file.name,
+      RUTA: "",
+      TIPO_DOCUMENTO_ID: "",
+      IS_NEW: true,
+    });
+  });
+  const files = fileNamesB.concat(newFileNames);
+  setFileNamesB(files);
+  setUploadFilesB(acceptedFiles);
+});
+
+
+const quitarDocumentoA = (name) => {
+setNewFiles(newFiles.filter((item) => item.name !== name.NOMBRE));
+setFileNames(fileNames.filter((item) => item !== name));
+};
+
+const quitarDocumentoB = (name) => {
+  setNewFilesB(newFilesB.filter((item) => item.name !== name.NOMBRE));
+  setFileNamesB(fileNamesB.filter((item) => item !== name));
+};
+
+const saveDocumentA = async () => {
+if(newFiles.length>0 && fileNames.length>0) {
+  let fileDataFiltered = []
+    const filterred = fileNames.filter(file => {
+      return newFiles[0].name === file.NOMBRE
+    })
+    if(filterred.length>0) fileDataFiltered = filterred;
+
+  const formData = new FormData();
+  formData.append("accion", "subirDocumentoBricomart")
+  formData.append("tipoId", 2);
+  formData.append("instalacionId", retirada.ID);
+
+  formData.append('documento', newFiles[0])
+                        
+    const requestOptions = {
+      method: 'POST',
+      body: formData
+    };
+
+    const postDocument = await fetch(`${API_INPRONET}/core/controller/BricomartController.php`, requestOptions)
+    toggle();
+}
+}
+const saveDocumentB = async () => {
+if(newFilesB.length>0 && fileNamesB.length>0) {
+    let fileDataFiltered = []
+      const filterred = fileNames.filter(file => {
+        return newFilesB[0].name === file.NOMBRE
+      })
+      if(filterred.length>0) fileDataFiltered = filterred;
+
+    const formData = new FormData();
+    formData.append("accion", "AdjuntarDocumentoLeroyInstalaciones")
+    formData.append("tipoId", 3)
+    formData.append("instalacionId", retirada.ID)
+    formData.append('documento', newFilesB[0])
+    formData.append('direct', 1);                    
+    const requestOptions = {
+      method: 'POST',
+      body: formData
+    };
+    console.log("requestOptions", formData)
+    const postDocument = await fetch(`${API_INPRONET}/core/controller/LeroyInstalacionesController.php`, requestOptions)
+    toggle();
+    //const resPostDocument = await postDocument.text() 
+}
+}
   const setDocumentLink = async (documento) => {
     const fetchDocument = await fetch(
       `${API_INPRONET}/download.php?filename=${documento.RUTA}`
@@ -195,6 +304,115 @@ const ShowDocumentosModal = ({
         Documentos asociados a la retirada
       </ModalHeader>
       <ModalBody>
+      <Row form>
+                                <Col md={4}>
+                                <Label>Añadir parte A*:</Label>
+                                <Dropzone onDrop={onDropA}>
+                                    {({
+                                        getRootProps,
+                                        getInputProps,
+                                        isDragActive,
+                                        isDragAccept,
+                                        isDragReject,
+                                    }) => {
+                                        const additionalClass = isDragAccept
+                                        ? "accept"
+                                        : isDragReject
+                                        ? "reject"
+                                        : "";
+
+                                        return (
+                                        <div
+                                            {...getRootProps({
+                                            className: `dropzone ${additionalClass}`,
+                                            })}
+                                        >
+                                            <input {...getInputProps()} />
+                                            <span>{isDragActive ? "📂" : "📁"}</span>
+                                        </div>
+                                        );
+                                    }}
+                                </Dropzone>
+                                    <div>
+                                    {fileNames.length > 0 ? <strong>Documentos:</strong> : <></>}
+                                    <ul>
+                                        {fileNames.map((fileName) => (
+                                        <li key={fileName.NOMBRE}>
+                                            <span className="filename-list">{fileName.NOMBRE}</span>
+
+                                            {fileName.IS_NEW && (
+                                                          <> <span
+                                                          onClick={() => saveDocumentA(fileName)}
+                                                      >
+                                                          <Button color="primary">Adjuntar</Button>
+                                                      </span>
+                                            <span
+                                                className="delete-document"
+                                                onClick={() => quitarDocumentoA(fileName)}
+                                            >
+                                                <Button color="danger">Eliminar</Button>
+                                            </span></>
+                                            )}
+                                        </li>
+                                        ))}
+                                    </ul>
+                                    </div>
+                                </Col>
+                                <Col md={4}>
+                                <Label>Añadir parte B:</Label>
+                                <Dropzone onDrop={onDropB}>
+                                    {({
+                                        getRootProps,
+                                        getInputProps,
+                                        isDragActive,
+                                        isDragAccept,
+                                        isDragReject,
+                                    }) => {
+                                        const additionalClass = isDragAccept
+                                        ? "accept"
+                                        : isDragReject
+                                        ? "reject"
+                                        : "";
+
+                                        return (
+                                        <div
+                                            {...getRootProps({
+                                            className: `dropzone ${additionalClass}`,
+                                            })}
+                                        >
+                                            <input {...getInputProps()} />
+                                            <span>{isDragActive ? "📂" : "📁"}</span>
+                                        </div>
+                                        );
+                                    }}
+                                </Dropzone>
+                                    <div>
+                                    {fileNamesB.length > 0 ? <strong>Documentos:</strong> : <></>}
+                                    <ul>
+                                        {fileNamesB.map((fileName) => (
+                                        <li key={fileName.NOMBRE} style={{"width":"500px"}}>
+                                          
+                                            <span className="filename-list">{fileName.NOMBRE}</span>
+
+                                            {fileName.IS_NEW && (
+                                                <> <span
+                                                onClick={() => saveDocumentB(fileName)}
+                                            >
+                                                <Button color="primary">Adjuntar</Button>
+                                            </span>
+                                            <span
+                                                className="delete-document"
+                                                onClick={() => quitarDocumentoB(fileName)}
+                                            >
+                                                <Button color="danger">Eliminar</Button>
+                                            </span></>
+                                            )}
+                                        </li>
+                                        ))}
+                                    </ul>
+                                    </div>
+                                </Col>
+                            </Row>
         <ShowDocuments documentos={documentosAsociadosRetirada} />
       </ModalBody>
       <ModalFooter>
