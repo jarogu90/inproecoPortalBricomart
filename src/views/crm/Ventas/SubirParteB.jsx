@@ -27,8 +27,14 @@ const SubirParteB = ({history}) => {
     const [fileNamesB, setFileNamesB] = useState([]);
     const [newFilesB, setNewFilesB] = useState([]);
     const [uploadFilesB, setUploadFilesB] = useState([]);
-
-
+    // Al clicar en cerrar, se resetea el formulario
+    const onClickCerrar = () => {
+        setToggleVentaSuccess(false);
+        document.getElementById("datosVenta").reset();
+        setFileNamesB([]);
+        setNewFilesB([]);
+        setUploadFilesB([]);
+    }
     const onDropB = useCallback((acceptedFiles) => {
         setNewFilesB(newFilesB.concat(acceptedFiles));
         let newFileNames = [];
@@ -180,6 +186,11 @@ const SubirParteB = ({history}) => {
                 <ModalHeader >Subir Documento</ModalHeader>
                 <ModalBody>El documento se ha subido correctamente.
                 </ModalBody>
+                <ModalFooter>
+        <Button color="primary" onClick={onClickCerrar}>
+          Cerrar
+        </Button>
+      </ModalFooter>
               </Modal>
                 ) : (<></>)
             }
@@ -188,6 +199,11 @@ const SubirParteB = ({history}) => {
                 <ModalHeader >Subir Documento</ModalHeader>
                 <ModalBody>Ha habido un error al subir el documento.
                 </ModalBody>
+                <ModalFooter>
+        <Button color="primary" onClick={setToggleVentaErrorDocument(false)}>
+          Cerrar
+        </Button>
+      </ModalFooter>
               </Modal>
                 ) : (<></>)
             }
