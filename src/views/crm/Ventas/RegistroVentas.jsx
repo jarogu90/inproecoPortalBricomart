@@ -32,7 +32,7 @@ const RegistroVentas = () => {
                 query: getVentasByCentroLM,
                 fetchPolicy: "no-cache",
                 variables: {
-                    limit: 500,
+                    limit: 5000,
                     //fields: JSON.parse(centro),
                     centroId: centroId
                     /* centroId: centroId */
@@ -49,7 +49,7 @@ const RegistroVentas = () => {
                 query: getVentasAllCentros,
                 fetchPolicy: "no-cache",
                 variables: {
-                    limit: 500,
+                    limit: 5000,
                     fields: lastQuery
                   },
             })
