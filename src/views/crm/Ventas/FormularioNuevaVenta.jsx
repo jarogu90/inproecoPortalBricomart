@@ -175,11 +175,11 @@ const FormularioNuevaVenta = ({history}) => {
     }
 
     const onChangeCodigoPostal = (e) => {
-        setDatosForm({...datosForm, codigo_postal: e.target.value})
+        setDatosForm({...datosForm, codigopostal: e.target.value})
     }
 
     const onChangeNumeroSerie = (e) => {
-        setDatosForm({...datosForm, numero_serie: e.target.value})
+        setDatosForm({...datosForm, numserie: e.target.value})
     }
 
     const onChangeCantidad = (e) => {
@@ -219,7 +219,7 @@ const FormularioNuevaVenta = ({history}) => {
     }, [client, getProvincias])
 
     const onChangeProvincia = (e) => {
-        setDatosForm({...datosForm, provincia: e.target.options[e.target.selectedIndex].text})
+        setDatosForm({...datosForm, provincia: e.target.value})
         if(e.target.value) {
             fetchLocalidades(e.target.value)
         }
@@ -240,7 +240,7 @@ const FormularioNuevaVenta = ({history}) => {
     }, [client,getMunicipiosByProvincia])
 
     const onChangeMunicipio = (e) => {
-        setDatosForm({...datosForm, localidad: e.target.options[e.target.selectedIndex].text})
+        setDatosForm({...datosForm, localidad: e.target.value})
     };
 
     const fetchCentroName = () => {
@@ -558,7 +558,7 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={6}>
                                     <FormGroup>
-                                        <Label>Provincia</Label>
+                                        <Label>Provincia 2</Label>
                                         <Input
                                         type="select"
                                         onChange= {onChangeProvincia}

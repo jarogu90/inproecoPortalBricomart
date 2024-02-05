@@ -192,18 +192,19 @@ if(newFiles.length>0 && fileNames.length>0) {
     if(filterred.length>0) fileDataFiltered = filterred;
 
   const formData = new FormData();
-  formData.append("accion", "subirDocumentoBricomart")
+  formData.append("accion", "AdjuntarDocumentoLeroyInstalaciones")
   formData.append("tipoId", 2);
   formData.append("instalacionId", retirada.ID);
 
   formData.append('documento', newFiles[0])
-                        
+  formData.append('direct', 1);                    
+       
     const requestOptions = {
       method: 'POST',
       body: formData
     };
 
-    const postDocument = await fetch(`${API_INPRONET}/core/controller/BricomartController.php`, requestOptions)
+    const postDocument = await fetch(`${API_INPRONET}/core/controller/LeroyInstalacionesController.php`, requestOptions)
     toggle();
 }
 }
@@ -337,7 +338,7 @@ if(newFilesB.length>0 && fileNamesB.length>0) {
                                     {fileNames.length > 0 ? <strong>Documentos:</strong> : <></>}
                                     <ul>
                                         {fileNames.map((fileName) => (
-                                        <li key={fileName.NOMBRE}>
+                                        <li key={fileName.NOMBRE}  style={{"width":"500px"}}>
                                             <span className="filename-list">{fileName.NOMBRE}</span>
 
                                             {fileName.IS_NEW && (
