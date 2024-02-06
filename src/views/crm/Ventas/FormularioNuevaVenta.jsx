@@ -53,6 +53,8 @@ const FormularioNuevaVenta = ({history}) => {
      const [newFilesB, setNewFilesB] = useState([]);
      const [uploadFilesB, setUploadFilesB] = useState([]);
 
+     const [isSaving, setIsSaving] = useState(false)
+
     const onDropA = useCallback((acceptedFiles) => {
         setNewFiles(newFiles.concat(acceptedFiles));
         let newFileNames = [];
@@ -328,7 +330,7 @@ const FormularioNuevaVenta = ({history}) => {
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
-
+        setIsSaving(true);
         // Enviar datos a la API usando FormData con todos los inputs del formulario
         const formData = new FormData();
         formData.append("accion", "guardarRetiradaLeroyInstalaciones");
@@ -352,8 +354,10 @@ const FormularioNuevaVenta = ({history}) => {
                 //uploadDocuments()
                 setLinkA(data.linkDocumentoA)
                 setLinkB(data.linkDocumentoB)
+                setIsSaving(false);
                 toggleVentaSuccess()
             } else {
+                setIsSaving(false);
                 toggleVentaErrorDocument()
             }
           })
@@ -828,7 +832,7 @@ const FormularioNuevaVenta = ({history}) => {
                             </Row> */}
                             <Row form> 
                                 <Col md={2}>
-                                    {nifInvalido || !almacen || !fecha ? (
+                                    {nifInvalido || !almacen || !fecha || isSaving ? (
                                         <Button type="submit" disabled>
                                                 Guardar 
                                         </Button>
