@@ -153,15 +153,15 @@ const FormularioNuevaVenta = ({history}) => {
     }
 
     const onChangeRazonSocial = (e) => {
-        setDatosForm({...datosForm, razon_social: e.target.value})
+        setDatosForm({...datosForm, razon: e.target.value})
     }
 
     const onChangeTipoVia = (e) => {
-        setDatosForm({...datosForm, tipo_via: e.target.value})
+        setDatosForm({...datosForm, tipovia: e.target.value})
     }
 
     const onChangeNombreVia = (e) => {
-        setDatosForm({...datosForm, nombre_via: e.target.value})
+        setDatosForm({...datosForm, nombrevia: e.target.value})
     }
 
     const onChangeNumero = (e) => {
@@ -190,7 +190,7 @@ const FormularioNuevaVenta = ({history}) => {
 
     const onChangeFechaVenta = (e) => {
         const dateFormatted = moment(e.target.value).format("DD/MM/YYYY");
-        setDatosForm({...datosForm, fecha_venta: dateFormatted});
+        setDatosForm({...datosForm, fechaventa: dateFormatted});
         setFecha(true);
     }
 
@@ -207,7 +207,7 @@ const FormularioNuevaVenta = ({history}) => {
     }
 
     const onChangeTipoGas = (e) => {
-        setDatosForm({...datosForm, tipo_gas: e.target.value})
+        setDatosForm({...datosForm, tipogas: e.target.value})
     }
 
      const fetchProvincias = useCallback(() => {
