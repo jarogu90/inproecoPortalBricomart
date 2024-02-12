@@ -24,7 +24,7 @@ const RowVentaActions = (props) => {
           user.rolDesc === "LEROY_INSTALACIONES_CENTRO") && (
           <>
             <ShowEditVenta {...props} />
-            <ShowDeleteVenta {...props} />
+            {/* <ShowDeleteVenta {...props} /> */}
           </>
         )}
       </td>
