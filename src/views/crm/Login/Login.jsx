@@ -15,6 +15,7 @@ const Login = (props) => {
     const [password, setPassword] = useState()
     const [userInvalid, setUserInvalid] = useState()
     const [passwordType, setPasswordType] = useState("password");
+    const [userTooManyAttempts, setUserTooManyAttempts] = useState(false);
 
     const onChangeUsername = (e) => {
       setUsername(e.target.value)
@@ -62,6 +63,8 @@ const Login = (props) => {
               if(user.rolDesc == "INPROECO" || user.rolDesc === "LEROY_INSTALACIONES_CENTRO") props.history.push("/crm/nueva-venta");
               else props.history.push("/crm/registro-ventas");           
             } else {
+              setUserInvalid(true)
+
               props.history.push("/login");
             }
           })
@@ -82,6 +85,8 @@ const Login = (props) => {
         <p className="title-login">BIENVENIDO</p>
 
         <form className="form">
+        {userTooManyAttempts ? (<p style={{ color: 'red' }}>Demasiados intentos fallidos seguidos, por favor espere 3 minutos antes de volver a intentarlo.</p>) : (<></>)}
+
           <div>
             <input className="input" placeholder="Usuario" type="text" id="username" name="username" onChange={onChangeUsername} />
           </div>
@@ -95,8 +100,9 @@ const Login = (props) => {
             Recordar mi contraseña
             <input type="checkbox" className="input-checkbox" />
           </div> */}
-          {userInvalid ? (<p>El usuario o la contraseña son incorrectos.</p>) : (<></>)}
-          <button className="button-login" onClick={onSubmit}>
+          {userInvalid ? (
+            <p>El usuario o la contraseña son incorrectos.</p>
+          ) : null}          <button className="button-login" onClick={onSubmit}>
             ENTRAR
           </button>
         </form>
