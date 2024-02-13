@@ -62,6 +62,7 @@ import {
   getVentasByCentro,
   getCentroName,
 } from "../../graphql";
+import { fi } from "date-fns/locale";
 
 const Layout = ({
   title,
@@ -84,7 +85,7 @@ const Layout = ({
     filterPlaceholder: "Filtrar...",
   };
   const [filterRows, setFilterRows] = useState([]);
-
+  const [filters, setFilters] = useState([]);
   const [count, setCount] = useState(null);
   const [pageSizes] = React.useState([5, 10, 15]);
   /* const [filtersApplied, setFiltersApplied] = useState([]); */
@@ -164,8 +165,7 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
   const getQueryString = () => {
     let filter;
     if (
-      user.rolDesc !== "LEROY_INSTALACIONES_CENTRO" &&
-      user.rolDesc !== "INPROECO"
+      user.rolDesc !== "LEROY_INSTALACIONES_CENTRO" 
     ) {
       filter = columns
         .reduce((acc, { name }) => {
@@ -206,8 +206,10 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
   const loadData = (excelExport = false) => {
     console.log("loading data")
     console.log(lastQuery)
-    console.log(loading)
-    const queryString = getQueryString();
+    console.log(filters)
+    //const queryString = getQueryString();
+    const queryString = `{${loadDataFilter()}}`;
+    console.log(queryString)
     //const queryString = loadDataFilter();
     let limit = excelExport ? 10000 : 500;
     if (
@@ -243,15 +245,13 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
   };
 
   const loadDataFilter = () => {
-    let centros = []
+    let filters = []
     let results = []
      filtersApplied.forEach((elemt)=>{
-      if (elemt.columnName === "CENTRO_PRODUCTOR_NOMBRE") {
-        
-        
-       return centros = elemt.value
-      }
+      filters.push(`"${elemt.columnName}": "*${elemt.value}*"`);
+
     })
+    return filters;
 
   };
 
@@ -341,12 +341,16 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
 
   useEffect(() => {
     if (filtersApplied.length > 0) {
-      loadData();
+      setFilters(filtersApplied);      
+     // loadData();
     } else {
       fetchVentas();
       //dataCount();
     }
   }, [filtersApplied]);
+  useEffect(() => {
+    loadData();
+  }, [filters]);
 
   return (
     <div>
