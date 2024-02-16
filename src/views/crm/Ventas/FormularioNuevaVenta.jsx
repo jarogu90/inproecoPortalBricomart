@@ -55,77 +55,6 @@ const FormularioNuevaVenta = ({history}) => {
 
      const [isSaving, setIsSaving] = useState(false)
 
-    const onDropA = useCallback((acceptedFiles) => {
-        setNewFiles(newFiles.concat(acceptedFiles));
-        let newFileNames = [];
-        // REVISAR FIX PARA AÑADIR ESTADO
-        setDatosForm({...datosForm, estado_id: 2})
-        
-        acceptedFiles.forEach((file) => {
-          newFileNames.push({
-            NOMBRE: file.name,
-            RUTA: "",
-            TIPO_DOCUMENTO_ID: "",
-            IS_NEW: true,
-          });
-        });
-        const files = fileNames.concat(newFileNames);
-        setFileNames(files);
-        setUploadFiles(acceptedFiles); 
-      });
-
-      const onDropB = useCallback((acceptedFiles) => {
-        setNewFilesB(newFilesB.concat(acceptedFiles));
-        let newFileNames = [];
-        // REVISAR FIX PARA AÑADIR ESTADO
-        setDatosForm({...datosForm, estado_id: 3})
-
-        acceptedFiles.forEach((file) => {
-          newFileNames.push({
-            NOMBRE: file.name,
-            RUTA: "",
-            TIPO_DOCUMENTO_ID: "",
-            IS_NEW: true,
-          });
-        });
-        const files = fileNamesB.concat(newFileNames);
-        setFileNamesB(files);
-        setUploadFilesB(acceptedFiles);
-      });
-
-    const saveDocuments = async (files=[], fileNames=[], tipoName) => {
-      if(files.length>0 && fileNames.length>0) {
-          let fileDataFiltered = []
-            const filterred = fileNames.filter(file => {
-              return files[0].name === file.NOMBRE
-            })
-            if(filterred.length>0) fileDataFiltered = filterred;
-
-          const docData = new FormData();
-          docData.append("accion", "subirDocumentoBricomart")
-          docData.append("tipoName", tipoName)
-          docData.append('documento', files[0])
-                              
-          const requestOptions = {
-            method: 'POST',
-            body: docData
-          };
-
-          const postDocument = await fetch(`${API_INPRONET}/core/controller/BricomartController.php`, requestOptions)
-          const resPostDocument = await postDocument.text() 
-          return resPostDocument
-      }
-    }
-
-    const quitarDocumentoA = (name) => {
-    setNewFiles(newFiles.filter((item) => item.name !== name.NOMBRE));
-    setFileNames(fileNames.filter((item) => item !== name));
-    };
-
-    const quitarDocumentoB = (name) => {
-        setNewFilesB(newFilesB.filter((item) => item.name !== name.NOMBRE));
-        setFileNamesB(fileNamesB.filter((item) => item !== name));
-    };
 
     const onChangeNif = (e) => {
         let cif = e.target.value 
@@ -208,6 +137,15 @@ const FormularioNuevaVenta = ({history}) => {
 
     const onChangeTipoGas = (e) => {
         setDatosForm({...datosForm, tipogas: e.target.value})
+    }
+    const onChangeEmail = (e) => {
+        setDatosForm({...datosForm, email: e.target.value})
+    }
+    const onChangeTelefono = (e) => {
+        setDatosForm({...datosForm, telefono: e.target.value})
+    }
+    const onChangeTicket = (e) => {
+        setDatosForm({...datosForm, ticket: e.target.value})
     }
 
      const fetchProvincias = useCallback(() => {
@@ -562,7 +500,27 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={6}>
                                     <FormGroup>
-                                        <Label>Provincia 2</Label>
+                                        <Label>Email</Label>
+                                        <Input
+                                        type="email"
+                                        onChange={onChangeEmail}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label>Teléfono</Label>
+                                        <Input
+                                        type="text"
+                                        onChange={onChangeTelefono}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row form>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label>Provincia</Label>
                                         <Input
                                         type="select"
                                         onChange= {onChangeProvincia}
@@ -654,7 +612,7 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={2}>
                                     
-                                        <Label>Instalacion Propia <span style={{ color: 'red' }}>*</span></Label>
+                                        <Label>Instalacion Leroy <span style={{ color: 'red' }}>*</span></Label>
                                         </Col>
                                         <Col md={1}>
                                         <FormGroup>
@@ -691,7 +649,17 @@ const FormularioNuevaVenta = ({history}) => {
                                         onChange={(e) => setDatosForm({...datosForm, numeropedido: e.target.value})}
                                         />
                                     </FormGroup>
-                                </Col>                                    
+                                </Col>   
+                                <Col md={3}>
+                                    <FormGroup>
+                                        <Label>Ticket</Label>
+                                        <Input
+                                        type="text"
+                                        name="ticket"
+                                        onChange={(e) => setDatosForm({...datosForm, ticket: e.target.value})}
+                                        />
+                                    </FormGroup>
+                                </Col>                                 
                             </Row>
                             <Row form>
                                 <Col md={3}>
