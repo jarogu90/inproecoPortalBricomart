@@ -612,7 +612,7 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={2}>
                                     
-                                        <Label>Instalacion Leroy <span style={{ color: 'red' }}>*</span></Label>
+                                        <Label>Instalación Leroy <span style={{ color: 'red' }}>*</span></Label>
                                         </Col>
                                         <Col md={1}>
                                         <FormGroup>
