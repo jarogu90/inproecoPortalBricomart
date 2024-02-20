@@ -306,7 +306,7 @@ if(newFilesB.length>0 && fileNamesB.length>0) {
       </ModalHeader>
       <ModalBody>
       <Row form>
-                                <Col md={4}>
+                                <Col md={6}>
                                 <Label>Añadir parte A*:</Label>
                                 <Dropzone onDrop={onDropA}>
                                     {({
@@ -338,7 +338,7 @@ if(newFilesB.length>0 && fileNamesB.length>0) {
                                     {fileNames.length > 0 ? <strong>Documentos:</strong> : <></>}
                                     <ul>
                                         {fileNames.map((fileName) => (
-                                        <li key={fileName.NOMBRE}  style={{"width":"500px"}}>
+                                        <li key={fileName.NOMBRE}  style={{"width":"300px"}}>
                                             <span className="filename-list">{fileName.NOMBRE}</span>
 
                                             {fileName.IS_NEW && (
