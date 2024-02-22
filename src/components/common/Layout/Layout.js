@@ -156,7 +156,28 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
   const exportMessages = {
     exportAll: "Exportar todo",
   };
-
+  // worksheet customization
+  /* eslint-disable no-param-reassign */
+  const customizeCell = (cell, row, column) => {
+    console.log(row);
+    console.log(column);
+    if(column.name == "FECHA_VENTA"){
+      cell.value = new Date(row.FECHA_VENTA);
+      console.log(cell.value)
+    }
+    // if (row.OrderDate < new Date(2014, 2, 3)) {
+    //   cell.font = { color: { argb: 'AAAAAA' } };
+    // }
+    // if (row.SaleAmount > 15000) {
+    //   if (column.name === 'SaleAmount') {
+    //     cell.font = { color: { argb: '000000' } };
+    //     cell.fill = { type: 'pattern', pattern: 'solid', fgColor: { argb: 'FFBB00' } };
+    //   }
+    // }
+    // if (column.name === 'SaleAmount') {
+    //   cell.numFmt = '$0';
+    // }
+  };
   // FILTRO BÚSQUEDA
   const [loading, setLoading] = useState(false);
   const [searchValue, setSearchValue] = useState("");
@@ -417,6 +438,7 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
                             rows={rowsExport}
                             columns={columnsToExport}
                             onSave={onSave}
+                            customizeCell={customizeCell}
                           />
                           <TableRowDetail
                             toggleCellComponent={(props) => (
