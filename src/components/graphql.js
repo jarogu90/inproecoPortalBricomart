@@ -100,6 +100,7 @@ export const getVentasByCentroLM = gql`
       APELLIDO2
       CANTIDAD
       ESTADO_ID
+      EMAIL
       ESTADO_NOMBRE
       FECHA_VENTA
       LOCALIDAD
@@ -212,6 +213,7 @@ export const getVentasAllCentros = gql`
       ESTADO_ID
       ESTADO_NOMBRE
       FECHA_VENTA
+      EMAIL
       LOCALIDAD
       MARCA
       MODELO

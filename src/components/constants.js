@@ -12,6 +12,7 @@ export const REGISTRO_VENTAS_COLUMNS = [
   { name: "CENTRO_PRODUCTOR_NOMBRE", title: "Centro" },
   { name: "FECHA_VENTA", title: "Fecha compra" },
   { name: "NIF", title: "Nif" },
+  { name: "EMAIL", title: "Email" },
   { name: "NOMBRE", title: "Nombre" },
   { name: "APELLIDO1", title: "Apellido 1" },
   { name: "APELLIDO2", title: "Apellido 2" },
