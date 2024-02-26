@@ -734,7 +734,7 @@ const FormularioNuevaVenta = ({history}) => {
                                     </FormGroup>
                                 </Col>                                 
                             </Row>
-                            <Row form>
+                            <Row form >
                                 <Col md={3}>
                                     <FormGroup>
                                         <Label>Fecha Venta <span style={{ color: 'red' }}>*</span></Label>
@@ -770,6 +770,21 @@ const FormularioNuevaVenta = ({history}) => {
                                                     <div>Por favor, seleccione una tienda</div>
                                                 ) : (<></>)
                                             }
+                                    </FormGroup>
+                                </Col>
+                                <Col md={4}>
+                                    <FormGroup>
+                                        <Label sm={4}>Venta telefónica</Label>
+                                        <Input
+                                        type="checkbox"
+                                        name="ventatelefonica"
+                                        onChange={(e) => {
+
+                                            if(e.target.value == "on") {
+                                                setDatosForm({...datosForm, ventatelefonica: 1})
+                                            }
+                                        }}
+                                        />
                                     </FormGroup>
                                 </Col>
                             </Row>
