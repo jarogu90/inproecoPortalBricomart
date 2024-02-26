@@ -7,7 +7,7 @@ import moment from "moment";
 import { GlobalStateContext } from "../../../context/GlobalContext";
 
 //graphql
-import { client, getLastId, getProvincias, getMunicipiosByProvincia, getCentros, insertVentaBricomart, getCentroName, getZonaByCentro, getZonaName, getDocumentPath, updateDocumentsPath } from '../../../components/graphql';
+import { client,getMarcas, getLastId, getProvincias, getMunicipiosByProvincia, getCentros, insertVentaBricomart, getCentroName, getZonaByCentro, getZonaName, getDocumentPath, updateDocumentsPath } from '../../../components/graphql';
 
 // constants
 import { API_INPRONET } from '../../../components/constants';
@@ -15,6 +15,7 @@ import { API_INPRONET } from '../../../components/constants';
 // components
 import VentaSuccessModal from '../../../components/common/Modals/VentaSuccessModal';
 import VentaErrorDocumentoModal from '../../../components/common/Modals/VentaErrorDocumentoModal';
+import { set } from 'lodash';
 
 // Variable Global para FIX de añadir el ID al clicar en submit
 let newId;
@@ -32,6 +33,9 @@ const FormularioNuevaVenta = ({history}) => {
     const [almacen, setAlmacen] = useState(false);
     const [fecha, setFecha] = useState(false);
 
+    const [marcas, setMarcas] = useState([]);
+    const [modelos, setModelos] = useState([]);
+    const [allModelos, setAllModelos] = useState([]);
     // MODALES
     const [ventaSuccess, setVentaSuccess] = useState(false);
     const [ventaErrorDocument, setVentaErrorDocument] = useState(false)
@@ -125,10 +129,16 @@ const FormularioNuevaVenta = ({history}) => {
 
     const onChangeMarca = (e) => {
         setDatosForm({...datosForm, marca: e.target.value})
+        const models = allModelos.filter(modelo => modelo.marca === e.target.value)
+        setModelos(models)
+        //setModelos(modelos.filter(modelo => modelo.marca === e.target.value))
     }
 
     const onChangeModelo = (e) => {
-        setDatosForm({...datosForm, modelo: e.target.value})
+        const seleccionado = e.target;
+        const texto = seleccionado.options[seleccionado.selectedIndex].text;
+        setDatosForm({...datosForm, modelo: texto, referencia: e.target.value})
+
     }
 
     const onChangeReferencia = (e) => {
@@ -147,6 +157,31 @@ const FormularioNuevaVenta = ({history}) => {
     const onChangeTicket = (e) => {
         setDatosForm({...datosForm, ticket: e.target.value})
     }
+
+    const fetchMarcas = useCallback(() => {
+        client
+            .query({
+                query: getMarcas
+            })
+            .then(res => {
+                const marcas = res.data.getLeroyInstalacionesEquipos.reduce((acc, marca) => {
+                    const existingMarca = acc.find(item => item.name === marca.MARCA);
+                    if (!existingMarca) {
+                        acc.push({ name: marca.MARCA, value: marca.REFERENCIA });
+                    }
+                    return acc;
+                }, []);
+                setMarcas(marcas)
+                const modelos = res.data.getLeroyInstalacionesEquipos.reduce((acc, modelo) => {
+                    const existingModelo = acc.find(item => item.name === modelo.MODELO);
+                    if (!existingModelo) {
+                        acc.push({ name: modelo.MODELO, value: modelo.REFERENCIA, marca: modelo.MARCA});
+                    }
+                    return acc;
+                }, []);
+                setAllModelos(modelos)
+            })
+    }, [client, getMarcas])
 
      const fetchProvincias = useCallback(() => {
         client
@@ -373,7 +408,8 @@ const FormularioNuevaVenta = ({history}) => {
 
      useEffect(() => {
         fetchProvincias()
-        fetchCentros()    
+        fetchCentros()   
+        fetchMarcas() 
         if(centroId) {
             fetchCentroName()
             setAlmacen(true)
@@ -556,8 +592,43 @@ const FormularioNuevaVenta = ({history}) => {
                                     <FormGroup>
                                         <Label>Marca <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
+                                        type="select"
+                                        onChange={onChangeMarca}
+                                        >
+                                            <option disabled selected defaultValue> -- Seleccionar -- </option>
+                                            {marcas && marcas.map(marca=>{ 
+                                                return (
+                                                <option key={marca.name} value={marca.name} >{marca.name}</option>
+                                                )
+                                            })}
+                                        </Input>
+                                    </FormGroup>
+                                </Col>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label>Modelo <span style={{ color: 'red' }}>*</span></Label>
+                                        <Input
+                                        type="select"
+                                        onChange={onChangeModelo}
+                                        >
+                                            <option disabled selected defaultValue> -- Seleccionar -- </option>
+                                            {modelos && modelos.map(modelo=>{ 
+                                                return (
+                                                <option key={modelo.value} value={modelo.value} >{modelo.name}</option>
+                                                )
+                                            })}
+                                        </Input>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row form>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label>Marca <span style={{ color: 'red' }}>*</span></Label>
+                                        <Input
                                         type="text"
                                         onChange={onChangeMarca}
+                                        value={datosForm.marca}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -567,6 +638,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         <Input
                                         type="text"
                                         onChange={onChangeModelo}
+                                        value={datosForm.modelo}
                                         />
                                     </FormGroup>
                                 </Col>
@@ -578,6 +650,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         <Input
                                         type="text"
                                         onChange={onChangeReferencia}
+                                        value={datosForm.referencia}
                                         />
                                     </FormGroup>
                                 </Col>
