@@ -478,6 +478,22 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                             </Row>
                             <Row form>
+                                <Col md={12}>
+                                    <FormGroup>
+                                        <Label>País dirección</Label>
+                                        <Input
+                                            type="select"
+                                            onChange={(e) => setDatosForm({...datosForm, paisDireccion: e.target.value})}
+                                        >
+                                            <option disabled selected defaultValue> -- Seleccionar -- </option>
+                                            <option value="spain">España</option>
+                                            <option value="portugal">Portugal</option>
+                                            <option value="france">Francia</option>
+                                        </Input>
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row form>
                                 <Col md={3}>
                                     <FormGroup>
                                         <Label>Tipo de Vía <span style={{ color: 'red' }}>*</span></Label>
@@ -784,6 +800,35 @@ const FormularioNuevaVenta = ({history}) => {
                                                 setDatosForm({...datosForm, ventatelefonica: 1})
                                             }
                                         }}
+                                        />
+                                    </FormGroup>
+                                </Col>
+                            </Row>
+                            <Row form>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label>Idioma documentación</Label>
+                                        <Input
+                                            type="select"
+                                            onChange={(e) => setDatosForm({...datosForm, language: e.target.value})}
+                                        >
+                                            <option disabled selected defaultValue> -- Seleccionar -- </option>
+                                            <option value="spa" selected="">Español</option>
+                                            <option value="ger">Alemán</option>
+                                            <option value="cat">Catalán</option>
+                                            <option value="eng">Inglés</option>
+                                            <option value="fre">Francés</option>
+                                            <option value="por">Portugués</option>
+                                        </Input>
+                                    </FormGroup>
+                                </Col>
+                                <Col md={6}>
+                                    <FormGroup>
+                                        <Label>Indicar, si fuera necesario, el nº de veces que es necesario replicar el formulario</Label>
+                                        <Input
+                                        type="text"
+                                        name="duplicado"
+                                        onChange={(e) => setDatosForm({...datosForm, duplicado: e.target.value})}
                                         />
                                     </FormGroup>
                                 </Col>
