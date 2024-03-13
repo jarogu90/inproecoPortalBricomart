@@ -362,9 +362,10 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
   }, [searchValue]);
 
   useEffect(() => {
+    console.log("filternum", filtersApplied);
     if (filtersApplied.length > 0) {
       setFilters(filtersApplied);      
-     // loadData();
+      loadData();
     } else {
       fetchVentas();
       //dataCount();
