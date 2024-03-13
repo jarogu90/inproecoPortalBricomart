@@ -59,6 +59,7 @@ import {
   getVentasAllCentros,
   getVentasByCentroFilter,
   getCentros,
+  getVentasByCentroLM,
   getVentasByCentro,
   getCentroName,
 } from "../../graphql";
@@ -159,11 +160,9 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
   // worksheet customization
   /* eslint-disable no-param-reassign */
   const customizeCell = (cell, row, column) => {
-    console.log(row);
-    console.log(column);
+
     if(column.name == "FECHA_VENTA"){
       cell.value = new Date(row.FECHA_VENTA);
-      console.log(cell.value)
     }
     // if (row.OrderDate < new Date(2014, 2, 3)) {
     //   cell.font = { color: { argb: 'AAAAAA' } };
@@ -225,14 +224,16 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
     };
 
   const loadData = (excelExport = false) => {
-    console.log("loading data")
-    console.log(lastQuery)
-    console.log(filters)
+
     //const queryString = getQueryString();
-    const queryString = `{${loadDataFilter()}}`;
-    console.log(queryString)
+    let queryString = `{${loadDataFilter()}}`;
     //const queryString = loadDataFilter();
     let limit = excelExport ? 10000 : 500;
+    // Añadir el filtro de centro en queryString
+    if (user.rolDesc == "LEROY_INSTALACIONES_CENTRO") {
+      // Si el objeto queryString está vacío, añadir la separación de campos si no, no añadir nada
+      queryString = queryString === "{}" ? queryString.replace("}", `"CENTRO_PRODUCTOR_ID": "${user.centroId}"}`): queryString.replace("}", `,"CENTRO_PRODUCTOR_ID": "${user.centroId}"}`);
+    }
     if (
       (queryString && excelExport) ||
       (queryString !== lastQuery && !loading)
@@ -240,12 +241,12 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
       client
         .query({
           query:
-            user.rolDesc !== "LEROY_INSTALACIONES_CENTRO" &&
-              user.rolDesc !== "INPROECO"
+            user.rolDesc == "LEROY_INSTALACIONES_CENTRO" 
               ? getVentasAllCentros
-              : getVentasByCentroFilter,
+              : getVentasAllCentros,
           fetchPolicy: "no-cache",
           variables: {
+            centroId: user.centroId,
             limit: limit,
             fields: JSON.parse(queryString),
           },
@@ -370,7 +371,7 @@ const columnFilterDateTimePredicate = (value, filter, row) => {
     }
   }, [filtersApplied]);
   useEffect(() => {
-    loadData();
+   // loadData();
   }, [filters]);
 
   return (

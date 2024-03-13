@@ -42,7 +42,7 @@ const RegistroVentas = () => {
                 //console.log(res)
                 setVentas(res.data.getLeroyInstalacionesView)
             })
-    }, [client, getVentasByCentro])
+    }, [client, getVentasByCentroLM])
     const fetchVentasRoleCorporativo = useCallback(() => {
         client
             .query({
