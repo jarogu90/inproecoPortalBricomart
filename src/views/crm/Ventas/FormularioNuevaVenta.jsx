@@ -707,7 +707,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         <FormGroup>
 
                                         <Input
-                                        
+                                        required
                                         type="radio"
                                         name="instalacionpropia"
                                         value="1"
