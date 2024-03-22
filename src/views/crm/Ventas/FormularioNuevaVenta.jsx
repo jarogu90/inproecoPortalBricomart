@@ -643,6 +643,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         <Label>Marca <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
+                                        required
                                         onChange={onChangeMarca}
                                         value={datosForm.marca}
                                         />
@@ -653,6 +654,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         <Label>Modelo <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
+                                        required
                                         onChange={onChangeModelo}
                                         value={datosForm.modelo}
                                         />
@@ -665,6 +667,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         <Label>Referencia <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
+                                        
                                         onChange={onChangeReferencia}
                                         value={datosForm.referencia}
                                         />
@@ -729,7 +732,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup>
-                                        <Label>Número de pedido</Label>
+                                        <Label>Número de pedido <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                                 required={datosForm.instalacion_propia == 1}
 
