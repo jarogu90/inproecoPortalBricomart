@@ -835,7 +835,17 @@ export const getMarcas = gql`
     }
   }
 `;
-
+export const getMarcayModeloByReferencia = gql`
+  query marcas ($referencia: String!) {
+    getLeroyInstalacionesEquipos (where: {ACTIVO: "1", REFERENCIA: $referencia}, orderBy: {MARCA: asc}) {
+      REFERENCIA
+      MARCA
+      MODELO
+      TIPO_GAS
+      ACTIVO
+    }
+  }
+`;
 export const FILE_UPLOAD_MUTATION = gql`
   mutation ($name: String!, $type: String!, $base64str: String!) {
     fileUpload(name: $name, type: $type, base64str: $base64str) {

@@ -7,7 +7,7 @@ import moment from "moment";
 import { GlobalStateContext } from "../../../context/GlobalContext";
 
 //graphql
-import { client,getMarcas, getLastId, getProvincias, getMunicipiosByProvincia, getCentros, insertVentaBricomart, getCentroName, getZonaByCentro, getZonaName, getDocumentPath, updateDocumentsPath } from '../../../components/graphql';
+import { client,getMarcas, getMarcayModeloByReferencia, getLastId, getProvincias, getMunicipiosByProvincia, getCentros, insertVentaBricomart, getCentroName, getZonaByCentro, getZonaName, getDocumentPath, updateDocumentsPath } from '../../../components/graphql';
 
 // constants
 import { API_INPRONET } from '../../../components/constants';
@@ -141,8 +141,21 @@ const FormularioNuevaVenta = ({history}) => {
 
     }
 
-    const onChangeReferencia = (e) => {
+    const onChangeReferencia = async (e) => {
+        const referencia = e.target.value;
         setDatosForm({...datosForm, referencia: e.target.value})
+
+        try {
+            const result = await client.query({
+                query: getMarcayModeloByReferencia,
+                variables: { referencia },
+            });
+    
+            const { MARCA, MODELO } = result.data.getLeroyInstalacionesEquipos[0];
+            setDatosForm({ ...datosForm, marca: MARCA, modelo: MODELO });
+        } catch (error) {
+            console.error('Error al obtener marca y modelo:', error);
+        }
     }
 
     const onChangeTipoGas = (e) => {
