@@ -152,7 +152,7 @@ const FormularioNuevaVenta = ({history}) => {
             });
     
             const { MARCA, MODELO } = result.data.getLeroyInstalacionesEquipos[0];
-            setDatosForm({ ...datosForm, marca: MARCA, modelo: MODELO });
+            setDatosForm({ ...datosForm, marca: MARCA, modelo: MODELO, referencia: referencia });
         } catch (error) {
             console.error('Error al obtener marca y modelo:', error);
         }
