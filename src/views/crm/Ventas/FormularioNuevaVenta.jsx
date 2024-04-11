@@ -133,7 +133,11 @@ const FormularioNuevaVenta = ({history}) => {
         setModelos(models)
         //setModelos(modelos.filter(modelo => modelo.marca === e.target.value))
     }
+    const onChangeModeloText = (e) => {
+        const seleccionado = e.target.value;
+        setDatosForm({...datosForm, modelo: seleccionado})
 
+    }
     const onChangeModelo = (e) => {
         const seleccionado = e.target;
         const texto = seleccionado.options[seleccionado.selectedIndex].text;
@@ -668,7 +672,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         <Input
                                         type="text"
                                         required
-                                        onChange={onChangeModelo}
+                                        onChange={onChangeModeloText}
                                         value={datosForm.modelo}
                                         />
                                     </FormGroup>
