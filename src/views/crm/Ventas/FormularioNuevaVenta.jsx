@@ -506,6 +506,7 @@ const FormularioNuevaVenta = ({history}) => {
                                             <option value="spain">España</option>
                                             <option value="portugal">Portugal</option>
                                             <option value="france">Francia</option>
+                                            <option value="gibraltar">Gibraltar</option>
                                         </Input>
                                     </FormGroup>
                                 </Col>
