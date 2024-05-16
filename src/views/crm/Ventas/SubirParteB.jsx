@@ -27,6 +27,9 @@ const SubirParteB = ({history}) => {
     const [fileNamesB, setFileNamesB] = useState([]);
     const [newFilesB, setNewFilesB] = useState([]);
     const [uploadFilesB, setUploadFilesB] = useState([]);
+    
+    const [instalacionPropia, setInstalacionPropia] = useState(false);
+    const [devuelto, setDevuelto] = useState(false);
     // Al clicar en cerrar, se resetea el formulario
     const onClickCerrar = () => {
         setToggleVentaSuccess(false);
@@ -56,11 +59,25 @@ const SubirParteB = ({history}) => {
   };
     const onSubmitForm = async (e) => {
         e.preventDefault();
+        // Validar campos obligatorios si los checkboxes están seleccionados
+        if (instalacionPropia && !e.target.referencia_instalacion.value) {
+            alert('Por favor, complete el campo "REFERENCIA INSTALACION".');
+            return;
+        }
 
+        if (devuelto && !e.target.codigo_devolucion.value) {
+            alert('Por favor, complete el campo "CÓDIGO DEVOLUCIÓN".');
+            return;
+        }
         // Enviar datos a la API usando FormData con todos los inputs del formulario
         const formData = new FormData();
         formData.append("accion", "cargarpartebinstalaciones");
         formData.append("identificador", e.target.identificador.value);
+        formData.append("instalacionpropia", e.target.instalacion_propia.checked);
+        formData.append("devuelto", e.target.devuelto.checked);
+        formData.append("ref_instalacion", e.target.referencia_instalacion ? e.target.referencia_instalacion.value:'');
+        formData.append("codigo_devolucion", e.target.codigo_devolucion ? e.target.codigo_devolucion.value: '');
+        formData.append("user", user.nickname);
         // Añadir archivos del Dropzone a formData
         newFilesB.forEach(file => {
             formData.append('documento', file);
@@ -75,11 +92,11 @@ const SubirParteB = ({history}) => {
         fetch(`${API_INPRONET}/core/controller/LeroyInstalacionesController.php`, requestOptions)
           .then(response => response.json())
           .then(data => {
-            if(data.resultado == "OK") {
+            //if(data.resultado == "OK") {
                 setToggleVentaSuccess(true)
-            } else {
+            /*} else {
                 setToggleVentaErrorDocument(true)
-            }
+            }*/
           })
           .catch(err => {
               console.log(err)
@@ -171,6 +188,64 @@ const SubirParteB = ({history}) => {
                                     </FormGroup>
                                 </Col>
                             </Row>
+          <Row form>
+          <Col md={5}>
+  <FormGroup>
+    <Label md={5}>INSTALACION PROPIA</Label>
+    <Input
+      id="instalacion_propia"
+      type="checkbox"
+      onChange={(e) => setInstalacionPropia(e.target.checked)}
+
+    />
+  </FormGroup>
+</Col></Row>
+{instalacionPropia && (
+                                <Row form>
+                                    <Col md={5}>
+                                        <FormGroup>
+                                            <Label md={4}>REFERENCIA INSTALACION</Label>
+                                            <Input
+                                                                                             id="referencia_instalacion"
+                                                                                             name="referencia_instalacion"
+                                                                                             type="text"
+                                                                                             style={{ width: '200px', height: '30px' }}
+                                                                                             required={instalacionPropia}  // Requerido si checkbox seleccionado
+                                                                                          />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                            )}
+<Row form>
+<Col md={5}>
+  <FormGroup>
+    <Label md={5}>DEVUELTO/ANULADO</Label>
+    <Input
+      id="devuelto"
+      type="checkbox"
+      onChange={(e) => setDevuelto(e.target.checked)}
+
+    />
+  </FormGroup>
+</Col>
+            </Row>
+            {devuelto && (
+                                <Row form>
+                                    <Col md={5}>
+                                        <FormGroup>
+                                            <Label md={5}>CÓDIGO DEVOLUCIÓN</Label>
+                                            <Input
+ id="codigo_devolucion"
+ name="codigo_devolucion"
+ type="text"
+ style={{ width: '200px', height: '30px' }}
+ required={devuelto}  // Requerido si checkbox seleccionado
+
+                                            />
+                                        </FormGroup>
+                                    </Col>
+                                </Row>
+                            )}
                             <Row form>
                                 <Col md={1}>
                                     <Button type="submit" color="primary" className="btn btn-primary btn-lg btn-block">Guardar</Button>
