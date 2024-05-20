@@ -320,7 +320,31 @@ const FormularioNuevaVenta = ({history}) => {
             })
 
     }
-
+    const saveDocuments = async (idInstalacion) => {
+        if(newFiles.length>0 && fileNames.length>0) {
+          let fileDataFiltered = []
+            const filterred = fileNames.filter(file => {
+              return newFiles[0].name === file.NOMBRE
+            })
+            if(filterred.length>0) fileDataFiltered = filterred;
+        
+          const formData = new FormData();
+          formData.append("accion", "AdjuntarDocumentoLeroyInstalaciones")
+          formData.append("tipoId", 6);
+          formData.append("instalacionId", idInstalacion);
+        
+          formData.append('documento', newFiles[0])
+          formData.append('direct', 1);                    
+               
+            const requestOptions = {
+              method: 'POST',
+              body: formData
+            };
+        
+            const postDocument = await fetch(`${API_INPRONET}/core/controller/LeroyInstalacionesController.php`, requestOptions)
+            //toggle();
+        }
+    }
     const onSubmitForm = async (e) => {
         e.preventDefault();
                 // Validar si se ha marcado "Instalador certificado" y se ha subido un documento
@@ -328,6 +352,7 @@ const FormularioNuevaVenta = ({history}) => {
                     alert("Debe subir un documento para el carnet de instalador.");
                     return;
                 }
+
         setIsSaving(true);
         // Enviar datos a la API usando FormData con todos los inputs del formulario
         const formData = new FormData();
@@ -353,6 +378,9 @@ const FormularioNuevaVenta = ({history}) => {
                 setLinkA(data.linkDocumentoA)
                 setLinkB(data.linkDocumentoB)
                 setIsSaving(false);
+                if(fileNames.length > 0) {
+                    const carnetId = saveDocuments(data.idInstalacion)    
+                }
                 toggleVentaSuccess()
             } else {
                 setIsSaving(false);
@@ -1008,7 +1036,7 @@ const FormularioNuevaVenta = ({history}) => {
             </div>
             {/* MODALES */}
             {ventaSuccess ? (
-                    <VentaSuccessModal ventaSuccess={ventaSuccess} toggle={toggleVentaSuccess} redirectToVentas={redirectToVentas} linkA={linkA} linkB={linkB}/>
+                    <VentaSuccessModal ventaSuccess={ventaSuccess} toggle={toggleVentaSuccess} redirectToVentas={redirectToVentas} linkA={linkA} linkB={linkB} instaladorCertificado={datosForm.instaladorCertificado}/>
                 ) : (<></>)
             }
             {ventaErrorDocument ? (
