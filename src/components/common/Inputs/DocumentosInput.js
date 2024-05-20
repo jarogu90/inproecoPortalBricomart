@@ -8,6 +8,7 @@ const DocumentosInput = ({
   setFileNames,
   newFiles,
   setNewFiles,
+  setInstaladorCertificadoConDocumento,
 }) => {
   const [uploadFiles, setUploadFiles] = useState([]);
   const [tipoDocumentos, setTipoDocumentos] = useState();
@@ -71,15 +72,21 @@ const DocumentosInput = ({
     setNewFiles(newFiles.filter((item) => item.name !== name.NOMBRE));
     setFileNames(fileNames.filter((item) => item !== name));
   };
-
   useEffect(() => {
-    getDocumentos();
+    if (fileNames.length > 0) {
+        setInstaladorCertificadoConDocumento(true);
+    } else {
+        setInstaladorCertificadoConDocumento(false);
+    }
+}, [fileNames, setInstaladorCertificadoConDocumento]);
+  useEffect(() => {
+    //getDocumentos();
   }, []);
 
   return (
     <Col sm={12} className="px-2">
       <div className="App">
-        <Label>Añadir documento:</Label>
+        <Label>Añadir carnet de instalador: <span style={{ color: 'red' }}>*</span></Label>
         <Dropzone onDrop={onDrop}>
           {({
             getRootProps,
@@ -113,22 +120,7 @@ const DocumentosInput = ({
             {fileNames.map((fileName) => (
               <li key={fileName.NOMBRE}>
                 <span className="filename-list">{fileName.NOMBRE}</span>
-                {fileName.IS_NEW ? (
-                  <select
-                    name={fileName.NOMBRE}
-                    value={fileName.TIPO_DOCUMENTO_ID}
-                    style={{ width: "280px" }}
-                    onChange={changeType}
-                  >
-                    {tipoDocumentos.map(({ ID, nombre }) => (
-                      <option key={ID} value={ID}>
-                        {nombre}
-                      </option>
-                    ))}
-                  </select>
-                ) : (
-                  <button>{fileName.TIPO_DOCUMENTO[0].NOMBRE}</button>
-                )}
+
                 {fileName.IS_NEW && (
                   <span
                     className="delete-document"

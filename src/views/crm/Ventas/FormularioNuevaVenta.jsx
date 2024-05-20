@@ -16,6 +16,7 @@ import { API_INPRONET } from '../../../components/constants';
 import VentaSuccessModal from '../../../components/common/Modals/VentaSuccessModal';
 import VentaErrorDocumentoModal from '../../../components/common/Modals/VentaErrorDocumentoModal';
 import { set } from 'lodash';
+import DocumentosInput from "../../../components/common/Inputs/DocumentosInput";
 
 // Variable Global para FIX de añadir el ID al clicar en submit
 let newId;
@@ -56,6 +57,8 @@ const FormularioNuevaVenta = ({history}) => {
      const [fileNamesB, setFileNamesB] = useState([]);
      const [newFilesB, setNewFilesB] = useState([]);
      const [uploadFilesB, setUploadFilesB] = useState([]);
+     const [tipoDocumentos, setTipoDocumentos] = useState();
+     const [instaladorCertificadoConDocumento, setInstaladorCertificadoConDocumento] = useState(false);
 
      const [isSaving, setIsSaving] = useState(false)
 
@@ -320,6 +323,11 @@ const FormularioNuevaVenta = ({history}) => {
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
+                // Validar si se ha marcado "Instalador certificado" y se ha subido un documento
+                if (datosForm.instaladorCertificado && !instaladorCertificadoConDocumento) {
+                    alert("Debe subir un documento para el carnet de instalador.");
+                    return;
+                }
         setIsSaving(true);
         // Enviar datos a la API usando FormData con todos los inputs del formulario
         const formData = new FormData();
@@ -455,6 +463,35 @@ const FormularioNuevaVenta = ({history}) => {
                                             }
                                     </FormGroup>
                                 </Col>
+                                <Col md={2}>
+        <FormGroup check>
+            <Label check>
+                <Input
+                    type="checkbox"
+                    onChange={(e) => setDatosForm({ ...datosForm, instaladorCertificado: e.target.checked })}
+                />
+                ¿Instalador certificado?
+            </Label>
+        </FormGroup>
+    </Col>
+    {datosForm.instaladorCertificado && (
+        <Col md={4}>
+            <FormGroup>
+                <DocumentosInput
+              fileNames={fileNames}
+              setFileNames={setFileNames}
+              newFiles={newFiles}
+              setNewFiles={setNewFiles}
+              tipoDocumentos={tipoDocumentos}
+              setTipoDocumentos={setTipoDocumentos}
+              setInstaladorCertificadoConDocumento={setInstaladorCertificadoConDocumento}
+
+            />
+            </FormGroup>
+        </Col>
+    )}
+                                </Row>
+                                <Row form>
                                 <Col md={4}>
                                     <FormGroup>
                                         <Label>Nombre</Label>
@@ -954,7 +991,7 @@ const FormularioNuevaVenta = ({history}) => {
                             </Row> */}
                             <Row form> 
                                 <Col md={2}>
-                                    {nifInvalido || !almacen || !fecha || isSaving ? (
+                                    {nifInvalido || !almacen || !fecha || isSaving || (datosForm.instaladorCertificado && !instaladorCertificadoConDocumento) ? (
                                         <Button type="submit" disabled>
                                                 Guardar 
                                         </Button>

@@ -97,7 +97,6 @@ const Addfactura = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(fileNames.length);
     if (!isValidForm()) {
       setInvalidForm(true);
       return;
