@@ -259,7 +259,7 @@ const SubirParteB = ({history}) => {
             {toggleVentaSuccess ? (
                 <Modal isOpen={toggleVentaSuccess} toggle={()=>{setToggleVentaSuccess(!toggleVentaSuccess)}}>
                 <ModalHeader >Subir Documento</ModalHeader>
-                <ModalBody>El documento se ha subido correctamente.
+                <ModalBody>Información guardada correctamente.
                 </ModalBody>
                 <ModalFooter>
         <Button color="primary" onClick={onClickCerrar}>
