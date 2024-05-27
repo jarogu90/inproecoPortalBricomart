@@ -63,18 +63,17 @@ const FormularioNuevaVenta = ({history}) => {
      const [isSaving, setIsSaving] = useState(false)
 
 
-    const onChangeNif = (e) => {
-        let cif = e.target.value 
-
-        if (cif.length == 9 || cif == '') {
-            setNifInvalido(false)
-            setDatosForm({...datosForm, nif: e.target.value})
+     const onChangeNif = async (e) => {
+        let cif = e.target.value;
+        setDatosForm({ ...datosForm, nif: cif });
+        await checkInstaladorCertificadoDoc(cif);
+        if (cif.length === 9 || cif === '') {
+            setNifInvalido(false);
             return true;
-            
         } else {
-            setNifInvalido(true)
+            setNifInvalido(true);
         }
-    }
+    };
 
     const onChangeFullName = (e) => {
         setDatosForm({...datosForm, nombre: e.target.value})
@@ -346,29 +345,26 @@ const FormularioNuevaVenta = ({history}) => {
         }
     }
 
-    const checkInstaladorCertificadoDoc = async (e) => {
-        console.log("checkInstaladorCertificadoDoc", datosForm)
+    const checkInstaladorCertificadoDoc = async (nif) => {
+        console.log('checkInstaladorCertificadoDoc', nif);
         const formData = new FormData();
-        formData.append("accion", "checkInstaladorCertificado")
-        formData.append("nif", datosForm.nif);
-              
-            
+        formData.append('accion', 'checkInstaladorCertificado');
+        formData.append('nif', nif);
+
         const requestOptions = {
             method: 'POST',
-            body: formData
+            body: formData,
         };
-        const hasInstaladorCertificadoDoc = await fetch(`${API_INPRONET}/core/controller/LeroyInstalacionesController.php`, requestOptions)
-        const data = await hasInstaladorCertificadoDoc.text(); // Assuming the response is in JSON format
+        const hasInstaladorCertificadoDoc = await fetch(`${API_INPRONET}/core/controller/LeroyInstalacionesController.php`, requestOptions);
+        const data = await hasInstaladorCertificadoDoc.text();
         const cleanedData = data.replace(/\s+/g, ' ').trim();
-        if(cleanedData == "true") {
-            console.log(data)
-            setHasCertificado(true)
+        if (cleanedData === 'true') {
+            console.log(data);
+            setHasCertificado(true);
         } else {
-            setHasCertificado(false)
+            setHasCertificado(false);
         }
-        
-
-    }
+    };
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
@@ -522,7 +518,8 @@ const FormularioNuevaVenta = ({history}) => {
                 <Input
                     type="checkbox"
                     onChange={(e) => {
-                        checkInstaladorCertificadoDoc();
+                        checkInstaladorCertificadoDoc(datosForm.nif);
+                                                   
                         setDatosForm({ ...datosForm, instaladorCertificado: e.target.checked })}}
                 />
                 ¿Instalador certificado?
