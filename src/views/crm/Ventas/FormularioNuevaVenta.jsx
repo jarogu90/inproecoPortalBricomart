@@ -59,7 +59,7 @@ const FormularioNuevaVenta = ({history}) => {
      const [uploadFilesB, setUploadFilesB] = useState([]);
      const [tipoDocumentos, setTipoDocumentos] = useState();
      const [instaladorCertificadoConDocumento, setInstaladorCertificadoConDocumento] = useState(false);
-
+    const [hasCertificado, setHasCertificado] = useState(false);
      const [isSaving, setIsSaving] = useState(false)
 
 
@@ -345,6 +345,31 @@ const FormularioNuevaVenta = ({history}) => {
             //toggle();
         }
     }
+
+    const checkInstaladorCertificadoDoc = async (e) => {
+        console.log("checkInstaladorCertificadoDoc", datosForm)
+        const formData = new FormData();
+        formData.append("accion", "checkInstaladorCertificado")
+        formData.append("nif", datosForm.nif);
+              
+            
+        const requestOptions = {
+            method: 'POST',
+            body: formData
+        };
+        const hasInstaladorCertificadoDoc = await fetch(`${API_INPRONET}/core/controller/LeroyInstalacionesController.php`, requestOptions)
+        const data = await hasInstaladorCertificadoDoc.text(); // Assuming the response is in JSON format
+        const cleanedData = data.replace(/\s+/g, ' ').trim();
+        if(cleanedData == "true") {
+            console.log(data)
+            setHasCertificado(true)
+        } else {
+            setHasCertificado(false)
+        }
+        
+
+    }
+
     const onSubmitForm = async (e) => {
         e.preventDefault();
                 // Validar si se ha marcado "Instalador certificado" y se ha subido un documento
@@ -496,13 +521,15 @@ const FormularioNuevaVenta = ({history}) => {
             <Label check>
                 <Input
                     type="checkbox"
-                    onChange={(e) => setDatosForm({ ...datosForm, instaladorCertificado: e.target.checked })}
+                    onChange={(e) => {
+                        checkInstaladorCertificadoDoc();
+                        setDatosForm({ ...datosForm, instaladorCertificado: e.target.checked })}}
                 />
                 ¿Instalador certificado?
             </Label>
         </FormGroup>
     </Col>
-    {datosForm.instaladorCertificado && (
+    {!hasCertificado && !nifInvalido && datosForm.instaladorCertificado && (
         <Col md={4}>
             <FormGroup>
                 <DocumentosInput
