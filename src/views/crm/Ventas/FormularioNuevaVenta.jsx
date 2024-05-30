@@ -1043,7 +1043,7 @@ const FormularioNuevaVenta = ({history}) => {
                             </Row> */}
                             <Row form> 
                                 <Col md={2}>
-                                    {nifInvalido || !almacen || !fecha || isSaving || (datosForm.instaladorCertificado && !instaladorCertificadoConDocumento) ? (
+                                    {nifInvalido || !almacen || !fecha || isSaving || (datosForm.instaladorCertificado && (!hasCertificado && !instaladorCertificadoConDocumento)) ? (
                                         <Button type="submit" disabled>
                                                 Guardar 
                                         </Button>
