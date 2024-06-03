@@ -526,7 +526,7 @@ const FormularioNuevaVenta = ({history}) => {
             </Label>
         </FormGroup>
     </Col>
-    {!hasCertificado && !nifInvalido && datosForm.instaladorCertificado && (
+    {!hasCertificado && !nifInvalido && datosForm.instaladorCertificado ? (
         <Col md={4}>
             <FormGroup>
                 <DocumentosInput
@@ -541,7 +541,15 @@ const FormularioNuevaVenta = ({history}) => {
             />
             </FormGroup>
         </Col>
-    )}
+    ): hasCertificado ? (
+        <Col md={4}>
+            <FormGroup>
+                <div className="alert alert-info">
+                    Sus datos ya están en la base de datos.
+                </div>
+            </FormGroup>
+        </Col>
+    ) : null}
                                 </Row>
                                 <Row form>
                                 <Col md={4}>

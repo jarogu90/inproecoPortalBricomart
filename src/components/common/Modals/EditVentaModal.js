@@ -366,7 +366,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row, fetchVentas }) => {
           <Row form>
           <Col md={5}>
   <FormGroup>
-    <Label md={6}>INSTALACION PROPIA</Label>
+    <Label md={6}>INSTALACION LEROY</Label>
     <Input
       id="instalacion_propia"
       type="checkbox"

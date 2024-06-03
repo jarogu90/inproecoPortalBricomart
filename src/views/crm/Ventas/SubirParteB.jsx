@@ -111,7 +111,7 @@ const SubirParteB = ({history}) => {
             <div className="content">
                 <section className="box">
                     <div className= "content-body">
-                        <h2>Registro Nueva Venta</h2>
+                        <h2>GESTIONES OTRAS TIENDAS</h2>
                         <Form id="datosVenta" onSubmit={onSubmitForm}>
                             <Row form>
                                 <Col md={3}>
@@ -191,7 +191,7 @@ const SubirParteB = ({history}) => {
           <Row form>
           <Col md={5}>
   <FormGroup>
-    <Label md={5}>INSTALACION PROPIA</Label>
+    <Label md={5}>INSTALACION LEROY</Label>
     <Input
       id="instalacion_propia"
       type="checkbox"
