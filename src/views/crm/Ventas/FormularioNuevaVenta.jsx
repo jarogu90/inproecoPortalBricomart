@@ -541,11 +541,11 @@ const FormularioNuevaVenta = ({history}) => {
             />
             </FormGroup>
         </Col>
-    ): hasCertificado ? (
+    ): hasCertificado && datosForm.instaladorCertificado ? (
         <Col md={4}>
             <FormGroup>
                 <div className="alert alert-info">
-                    Sus datos ya están en la base de datos.
+                    Su carnet ya está registrado. No es necesario que lo vuelva a añadir.
                 </div>
             </FormGroup>
         </Col>
