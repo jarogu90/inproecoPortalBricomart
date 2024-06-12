@@ -554,27 +554,30 @@ const FormularioNuevaVenta = ({history}) => {
                                 <Row form>
                                 <Col md={4}>
                                     <FormGroup>
-                                        <Label>Nombre</Label>
+                                        <Label>Nombre <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
+                                        required
                                         onChange={onChangeFullName}
                                         />
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup>
-                                        <Label>Apellido 1</Label>
+                                        <Label>Apellido 1 <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
+                                        required
                                         onChange={onChangeApellido1}
                                         />
                                     </FormGroup>
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup>
-                                        <Label>Apellido 2</Label>
+                                        <Label>Apellido 2 </Label>
                                         <Input
                                         type="text"
+                                        
                                         onChange={onChangeApellido2}
                                         />
                                     </FormGroup>
@@ -583,9 +586,10 @@ const FormularioNuevaVenta = ({history}) => {
                             <Row form>
                                 <Col md={12}>
                                     <FormGroup>
-                                        <Label>Razón Social</Label>
+                                        <Label>Razón Social <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
+                                        required
                                         onChange={onChangeRazonSocial}
                                         />
                                     </FormGroup>

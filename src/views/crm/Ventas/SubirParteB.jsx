@@ -124,7 +124,7 @@ const SubirParteB = ({history}) => {
                             <Row form>
                                 <Col md={3}>
                                     <FormGroup>
-                                    <Label>Añadir parte B:</Label>
+                                    <Label style={{ fontSize: "18px" }}>Añadir parte B:</Label>
                                     <Dropzone onDrop={onDropB}>
                                         {({
                                         getRootProps,
@@ -146,7 +146,7 @@ const SubirParteB = ({history}) => {
                                             })}
                                             >
                                             <input {...getInputProps()} />
-                                            <span>{isDragActive ? "📂" : "📁"}</span>
+                                            <span style={{ cursor: "pointer", fontSize: "36px"  }}>{isDragActive ? "📂" : "📁"}</span>
                                             </div>
                                         );
                                         }}
@@ -196,7 +196,9 @@ const SubirParteB = ({history}) => {
       id="instalacion_propia"
       type="checkbox"
       onChange={(e) => setInstalacionPropia(e.target.checked)}
-
+      style={{ backgroundColor: '#fff',
+      border: '2px solid #ccc',
+      borderRadius: '3px' }}
     />
   </FormGroup>
 </Col></Row>
@@ -204,7 +206,7 @@ const SubirParteB = ({history}) => {
                                 <Row form>
                                     <Col md={5}>
                                         <FormGroup>
-                                            <Label md={4}>REFERENCIA INSTALACION</Label>
+                                            <Label md={4}>Ticket de instalación</Label>
                                             <Input
                                                                                              id="referencia_instalacion"
                                                                                              name="referencia_instalacion"
@@ -224,7 +226,9 @@ const SubirParteB = ({history}) => {
       id="devuelto"
       type="checkbox"
       onChange={(e) => setDevuelto(e.target.checked)}
-
+      style={{ backgroundColor: '#fff',
+      border: '2px solid #ccc',
+      borderRadius: '3px' }}
     />
   </FormGroup>
 </Col>
@@ -233,7 +237,7 @@ const SubirParteB = ({history}) => {
                                 <Row form>
                                     <Col md={5}>
                                         <FormGroup>
-                                            <Label md={5}>CÓDIGO DEVOLUCIÓN</Label>
+                                            <Label md={5}>Ticket de Devolución/Anulación</Label>
                                             <Input
  id="codigo_devolucion"
  name="codigo_devolucion"
