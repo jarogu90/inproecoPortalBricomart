@@ -61,6 +61,7 @@ const FormularioNuevaVenta = ({history}) => {
      const [instaladorCertificadoConDocumento, setInstaladorCertificadoConDocumento] = useState(false);
     const [hasCertificado, setHasCertificado] = useState(false);
      const [isSaving, setIsSaving] = useState(false)
+     const [formError, setFormError] = useState('');
 
 
      const onChangeNif = async (e) => {
@@ -73,6 +74,15 @@ const FormularioNuevaVenta = ({history}) => {
         } else {
             setNifInvalido(true);
         }
+    };
+
+    const validateForm = () => {
+        if ((!datosForm.nombre || !datosForm.apellido1) && !datosForm.razon) {
+            setFormError('Debe proporcionar nombre y apellidos o razón social');
+            return false;
+        }
+        setFormError('');
+        return true;
     };
 
     const onChangeFullName = (e) => {
@@ -368,6 +378,9 @@ const FormularioNuevaVenta = ({history}) => {
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
+        if (!validateForm()) {
+            return;
+        }
                 // Validar si se ha marcado "Instalador certificado" y se ha subido un documento
                 if (datosForm.instaladorCertificado && !instaladorCertificadoConDocumento) {
                     alert("Debe subir un documento para el carnet de instalador.");
@@ -557,7 +570,6 @@ const FormularioNuevaVenta = ({history}) => {
                                         <Label>Nombre <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
-                                        required
                                         onChange={onChangeFullName}
                                         />
                                     </FormGroup>
@@ -567,7 +579,7 @@ const FormularioNuevaVenta = ({history}) => {
                                         <Label>Apellido 1 <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
-                                        required
+
                                         onChange={onChangeApellido1}
                                         />
                                     </FormGroup>
@@ -589,12 +601,19 @@ const FormularioNuevaVenta = ({history}) => {
                                         <Label>Razón Social <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                         type="text"
-                                        required
+
                                         onChange={onChangeRazonSocial}
                                         />
                                     </FormGroup>
                                 </Col>
                             </Row>
+                            {formError && (
+                                <Row form>
+                                    <Col md={12}>
+                                        <div className="text-danger">{formError}</div>
+                                    </Col>
+                                </Row>
+                            )}
                             <Row form>
                                 <Col md={12}>
                                     <FormGroup>
@@ -1066,6 +1085,13 @@ const FormularioNuevaVenta = ({history}) => {
                                     }
                                  </Col>
                             </Row>
+                            {formError && (
+                                <Row form>
+                                    <Col md={12}>
+                                        <div className="text-danger">{formError}</div>
+                                    </Col>
+                                </Row>
+                            )}
                         </Form>
                     </div>
                 </section>
