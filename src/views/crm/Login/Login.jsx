@@ -81,6 +81,8 @@ const Login = (props) => {
       <img className="img" src="/ilustracion-login.png" />
 
       <div className="login">
+      <img src="/banner-inpronet.jpg" style={{
+    width: "400px",    height: "200px"}}/>
         <img src="/circulo bienvenida.png" />
         <p className="title-login">BIENVENIDO</p>
 
