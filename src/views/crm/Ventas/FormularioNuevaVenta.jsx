@@ -502,6 +502,7 @@ const FormularioNuevaVenta = ({history}) => {
             setAlmacen(true)
         }
     }, [])
+    const today = moment().format("YYYY-MM-DD"); // Obtener la fecha actual en formato YYYY-MM-DD
 
     return (
         <div>
@@ -893,18 +894,18 @@ const FormularioNuevaVenta = ({history}) => {
                             </Row>
                             <Row form >
                                 <Col md={3}>
-                                    <FormGroup>
-                                        <Label>Fecha Venta <span style={{ color: 'red' }}>*</span></Label>
-                                        <Input
-                                        type="date"
-                                        placeholder="date placeholder"
-                                        onChange={onChangeFechaVenta}
-                                        />
-                                         {!fecha ? (
-                                                    <div>Por favor, seleccione una fecha</div>
-                                                ) : (<></>)
-                                            }
-                                    </FormGroup>
+                                <FormGroup>
+      <Label>Fecha Venta <span style={{ color: 'red' }}>*</span></Label>
+      <Input
+        type="date"
+        placeholder="date placeholder"
+        onChange={onChangeFechaVenta}
+        max={today} // Establecer el atributo max con la fecha actual
+      />
+      {!fecha ? (
+        <div>Por favor, seleccione una fecha</div>
+      ) : (<></>)}
+    </FormGroup>
                                 </Col>
                                 <Col md={4}>
                                     <FormGroup>
