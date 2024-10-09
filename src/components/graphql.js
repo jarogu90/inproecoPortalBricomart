@@ -62,6 +62,7 @@ export const getVentasByCentro = gql`
         estado: nombre
       }
       estado_id
+      estado
       fecha_venta
       localidad
       marca
@@ -98,6 +99,7 @@ export const getVentasByCentroFilter = gql`
         nombre
       }
       estado_id
+      estado
       fecha_venta
       localidad
       marca
@@ -134,6 +136,7 @@ export const getVentasByCentroNombre = gql`
         nombre
       }
       estado_id
+      estado
       fecha_venta
       localidad
       marca
@@ -169,6 +172,7 @@ export const getVentasAllCentros = gql`
       estado_venta {
         nombre
       }
+      estado
       estado_id
       fecha_venta
       localidad

@@ -286,12 +286,19 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
       centro: e.target.options[e.target.selectedIndex].text,
     });
   };
-
+const onChangeEstado = (event) => {
+  console.log(event.target.options[event.target.selectedIndex].text);
+  setDatosForm({
+    ...datosForm,
+    estado_id: event.target.value,
+    estado: event.target.options[event.target.selectedIndex].text,
+  });
+};
   // FORMATEAR DATOS PARA ENVIAR
   const setMutationString = () => {
     let newObject = datosForm;
     delete newObject.estado_venta;
-    delete newObject.estado;
+    // delete newObject.estado;
     setDatosForm(newObject);
     return JSON.stringify(datosForm);
   };
@@ -322,7 +329,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
       });
     
     /* REVISAR ESTE FIX QUE SOLUCIONA QUE NO SE SETEA EL ESTADO PARA PARTE A*/
-    if(updatedSale) await updateEstado(row.id, 2);
+    //if(updatedSale) await updateEstado(row.id, 2);
     
     if (updatedSale && existsParteB()) {
       let pathParteB;
@@ -644,7 +651,7 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
             </Col>
           </Row>
           <Row form>
-            <Col md={6}>
+            <Col md={3}>
               <FormGroup>
                 <Label>Fecha Venta</Label>
                 <Input
@@ -653,6 +660,21 @@ const EditVentaModal = ({ editVentaModal, toggle, row }) => {
                   onChange={onChangeFechaVenta}
                   value={dateToShow ? dateToShow : ""}
                 />
+              </FormGroup>
+            </Col>
+            <Col md={3}>
+              <FormGroup>
+                <Label>Estado</Label>
+                <Input
+      type="select"
+      onChange={onChangeEstado}
+      value={datosForm.estado_id ? datosForm.estado_id : ""}
+          >
+      <option value="1">SIN DOCUMENTACION</option>
+      <option value="5">DEVUELTO/ANULADO</option>
+      <option value="2">PARTE A</option>
+      <option value="3">PARTE B</option>
+    </Input>
               </FormGroup>
             </Col>
             <Col md={6}>
