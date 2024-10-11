@@ -1,6 +1,5 @@
 import React, {useState, useContext} from "react";
 import { Link, Redirect } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Container, Row, Col, Label, FormGroup, Input, Form, FormText
