@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import { Link, Redirect } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
+//import { Auth } from 'aws-amplify';
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Container, Row, Col, Label, FormGroup, Input, Form, FormText
@@ -16,15 +16,15 @@ const ForgottenPassword = (props) => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        Auth.forgotPassword(username)
-          .then(data => {
-              console.log(data)
-                props.history.push('/verification-code')
-          })
-          .catch(err => {
-              console.log(err)
+        // Auth.forgotPassword(username)
+        //   .then(data => {
+        //       console.log(data)
+        //         props.history.push('/verification-code')
+        //   })
+        //   .catch(err => {
+        //       console.log(err)
 
-        })
+        // })
     }
 
     return (

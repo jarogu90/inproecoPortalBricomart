@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { Link, Redirect } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
+
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Container, Row, Col, Label, FormGroup, Input, Form, FormText
@@ -23,39 +23,7 @@ const Login = (props) => {
     const onSubmit = (e) => {
         e.preventDefault()
         console.log(props)
-        Auth.signIn(username, password)
-          .then(user => {
-              console.log(user.signInUserSession.accessToken.jwtToken)
-              console.log('LOGADO!')
-              if(user.signInUserSession.accessToken.jwtToken) {
-                props.history.push('/crm/servicios'); 
-              }
-              //return <Redirect to='crm/servicios'/>
-            /* const { history, location } = props;
-            const { from } = location.state || {
-              from: {
-                pathname: '/servicios'
-              }
-            }; */
 
-            /* localStorage.setItem(AUTH_USER_TOKEN_KEY, user.signInUserSession.accessToken.jwtToken);
-
-            notification.success({
-              message: 'Succesfully logged in!',
-              description: 'Logged in successfully, Redirecting you in a few!',
-              placement: 'topRight',
-              duration: 1.5
-            });*/
-
-          })
-          .catch(err => {
-              console.log(err)
-            /* notification.error({
-              message: 'Error',
-              description: err.message,
-              placement: 'topRight'
-            }); */
-        }) 
     }
 
     return (

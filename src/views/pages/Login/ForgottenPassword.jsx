@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { Link, Redirect } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Container, Row, Col, Label, FormGroup, Input, Form, FormText
@@ -16,28 +15,7 @@ const ForgottenPassword = () => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        Auth.forgotPassword(username)
-          .then(data => {
-              console.log(data)
-            /* notification.success({
-              message: 'Redirecting you in a few!',
-              description: 'Account confirmed successfully!',
-              placement: 'topRight',
-              duration: 1.5,
-              onClose: () => {
-                this.setState({ redirect: true });
-              }
-            }); */
-          })
-          .catch(err => {
-              console.log(err)
-            /* notification.error({
-              message: 'User confirmation failed',
-              description: err.message,
-              placement: 'topRight',
-              duration: 1.5
-            }); */
-        })
+
     }
 
     return (

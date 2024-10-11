@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { Link, Redirect } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Container, Row, Col, Label, FormGroup, Input, Form, FormText
@@ -37,15 +36,7 @@ const VerificationCode = (props) => {
             return
         }
         console.log(username,code,password)
-        Auth.forgotPasswordSubmit(username, code, password)
-          .then(data => {
-              console.log(data)
-              setInvalidForm(false)
-              props.history.push('/login')
-          })
-          .catch(err => {
-              console.log(err)
-        })
+
         props.history.push('/login')
     }
 

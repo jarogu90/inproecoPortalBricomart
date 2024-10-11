@@ -1,11 +1,11 @@
-import { Auth } from "aws-amplify";
+//import { Auth } from "aws-amplify";
 
 export async function loginUser(dispatch, loginPayload) {
   try {
     dispatch({ type: "REQUEST_LOGIN" });
-    let response = await Auth.signIn(loginPayload);
-    let data = await response.json();
-    console.log(data);
+    // let response = await Auth.signIn(loginPayload);
+    // let data = await response.json();
+    // console.log(data);
 
     /* if (data.user) {
       dispatch({ type: "LOGIN_SUCCESS", payload: data });

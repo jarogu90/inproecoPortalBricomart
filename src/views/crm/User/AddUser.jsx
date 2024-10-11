@@ -3,7 +3,7 @@ import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Container, Row, Col, Label, FormGroup, Input, Form, FormText
 } from 'reactstrap';
-import { Auth } from 'aws-amplify';
+
 
 const AddUser = ({isOpen, toggle, userModal, setUserModal, setNewUserCreated}) => {
     const [user, setUser] = useState()
@@ -28,31 +28,7 @@ const AddUser = ({isOpen, toggle, userModal, setUserModal, setNewUserCreated}) =
         let medioAmbienteBooleanString = medioAmbiente ? "true" : "false"
 
         console.log(user, password, name, email, ip, notificableBooleanString, focoEmisionBooleanString, medioAmbienteBooleanString)
-        Auth.signUp({
-            username: user,
-            password,
-            attributes: {
-                nickname: user,
-                email,
-                name,
-                updated_at: new Date().getTime().toString(),
-                'custom:Fecha-Alta': new Date().getTime().toString(),
-                'custom:Fecha-Baja': '-',
-                'custom:Rol': 'INPROECO',
-                'custom:ID': '1',  
-                'custom:Filtro-Acceso-IP': ip,
-                'custom:Foco-Emision': focoEmisionBooleanString,
-                'custom:Medio-Ambiente': medioAmbienteBooleanString,
-                'custom:Notificar-Accion': notificableBooleanString
-            }
-          })
-            .then((data) => {
-                console.log(data)
-                setNewUserCreated(true)
-            })
-            .catch(err => {
-                console.log(err)
-            })
+
 
             setUserModal(!userModal)
     }

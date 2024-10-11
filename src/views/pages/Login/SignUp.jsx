@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import { Link, Redirect } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Container, Row, Col, Label, FormGroup, Input, Form, FormText
@@ -31,42 +30,7 @@ const SignUp = () => {
     const onSubmit = (e) => {
         console.log(username)
         e.preventDefault()
-        Auth.signUp({
-            username: username,
-            password,
-            attributes: {
-                nickname: username,
-                email,
-                name: name,
-                updated_at: new Date().getTime().toString(),
-                'custom:Fecha-Alta': new Date().getTime().toString(),
-                'custom:Fecha-Baja': '-',
-                'custom:Role': 'INPROECO'
-            }
-          })
-            .then((data) => {
-                console.log(data)
-              /* notification.success({
-                message: 'Succesfully signed up user!',
-                description: 'Account created successfully, Redirecting you in a few!',
-                placement: 'topRight',
-                duration: 1.5,
-                onClose: () => {
-                  this.setState({ redirect: true });
-                }
-              }); */
-  
-              this.setState({ email });
-            })
-            .catch(err => {
-                console.log(err)
-              /* notification.error({
-                message: 'Error',
-                description: 'Error signing up user',
-                placement: 'topRight',
-                duration: 1.5
-              }); */
-            })
+
               
     }
 

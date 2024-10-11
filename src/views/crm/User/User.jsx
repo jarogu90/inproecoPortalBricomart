@@ -5,7 +5,6 @@ import {
     Container, Row, Col, Label, FormGroup, Input, Form, FormText
 } from 'reactstrap';
 
-import { Auth } from 'aws-amplify';
 import AddUser from './AddUser';
 
 const User = () => {
