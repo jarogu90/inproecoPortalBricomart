@@ -84,7 +84,13 @@ export const getVentasByCentro = gql`
     }
   }
 `;
-
+export const deleteDocumentField = gql`
+  mutation deleteDocumentField($ventaId: Int!, $field: ventas_bricomart_set_input) {
+    update_ventas_bricomart(where: { id: { _eq: $ventaId } }, _set: $field) {
+      affected_rows
+    }
+  }
+`;
 export const getVentasByCentroFilter = gql`
   query ventas($fields: ventas_bricomart_bool_exp, $limit: Int) {
     ventas_bricomart(limit: $limit, where: $fields) {

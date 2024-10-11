@@ -7,6 +7,7 @@ import {
   ModalFooter,
   FormText,
 } from "reactstrap";
+import { client, deleteDocumentField } from '../../graphql';
 
 //constants
 import { API_INPRONET } from "../../constants";
@@ -14,6 +15,8 @@ import { API_INPRONET } from "../../constants";
 const ShowDocumentsModal = ({ showDocumentsModal, toggle, retirada }) => {
   const [parteA, setParteA] = useState(false);
   const [parteB, setParteB] = useState(false);
+  const [parteAruta, setParteAruta] = useState(retirada.parteA_ruta);
+  const [parteBruta, setParteBruta] = useState(retirada.parteB_ruta);
   const [confirmDelete, setConfirmDelete] = useState(false); // Estado para manejar el popup de confirmación
   const [docToDelete, setDocToDelete] = useState(null); // Estado para almacenar el documento a borrar
 console.log(retirada)
@@ -21,7 +24,6 @@ console.log(retirada)
     let fetchDocument = await fetch(
       `${API_INPRONET}/downloadbrico.php?filename=${url}`
     );
-    console.log(fetchDocument)
     if(fetchDocument == null) {
       fetchDocument = await fetch(
       `${API_INPRONET}/download.php?filename=${url}`
@@ -30,7 +32,6 @@ console.log(retirada)
     const resfetchDocument = await fetchDocument.blob();
     var reader = new FileReader();
     reader.onload = (e) => {
-      console.log(e.target.result);
       if (!url.includes("parteB")) setParteA(e.target.result);
       else setParteB(e.target.result);
     };
@@ -40,8 +41,8 @@ console.log(retirada)
   const ShowDocuments = () => {
     return (
       <>
-        {showDocument(retirada.parteA_ruta, "parteA")}
-        {retirada.parteB_ruta && showDocument(retirada.parteB_ruta, "parteB")}
+        {parteAruta && showDocument(retirada.parteA_ruta, "parteA")}
+        {parteBruta && showDocument(retirada.parteB_ruta, "parteB")}
       </>
     );
   };
@@ -68,7 +69,7 @@ console.log(retirada)
           textAlign: "center",
           marginLeft: "5px",
         }}
-        onClick={() => handleDeleteClick(path)}
+        onClick={() => handleDeleteClick(type === "parteB" ? "parteB_ruta" : "parteA_ruta")}
       />
           
         </span>
@@ -76,8 +77,9 @@ console.log(retirada)
     );
   };
 
-  const handleDeleteClick = (path) => {
-    setDocToDelete(path);
+  const handleDeleteClick = (type) => {
+    console.log(type)
+    setDocToDelete(type);
     setConfirmDelete(true);
   };
 
@@ -87,9 +89,23 @@ console.log(retirada)
     setDocToDelete(null);
   };
 
-  const deleteDoc = (path) => {
-    // Lógica para borrar el documento
-    console.log(`Documento a borrar: ${path}`);
+  const deleteDoc = (type) => {
+    const fieldToUpdate = {};
+    fieldToUpdate[type] = null;
+    client.mutate({
+      mutation: deleteDocumentField,
+      variables: {
+        ventaId: retirada.id, // Asumiendo que `retirada` tiene un campo `id`
+        field: fieldToUpdate
+      }
+    }).then(response => {
+      console.log(`Documento ${type} borrado`);
+      // Actualizar el estado local si es necesario
+      if (type === "parteA_ruta") setParteAruta(false);
+      if (type === "parteB_ruta") setParteBruta(false);
+    }).catch(error => {
+      console.error(`Error al borrar el documento ${type}:`, error);
+    });
   };
 
   return (
