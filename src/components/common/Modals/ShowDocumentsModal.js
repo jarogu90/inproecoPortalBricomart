@@ -12,6 +12,7 @@ import { client, deleteDocumentField } from '../../graphql';
 
 //constants
 import { API_INPRONET } from "../../constants";
+import { GlobalStateContext } from "../../../context/GlobalContext";
 
 const ShowDocumentsModal = ({ showDocumentsModal, toggle, retirada }) => {
   const [parteA, setParteA] = useState(false);
