@@ -50,6 +50,8 @@ console.log(retirada)
   const showDocument = (path, type) => {
     if (!parteA) fetchDocument(path);
     if (!parteB) fetchDocument(path);
+    const { user } = useContext(GlobalStateContext);
+
     return (
       <li key={path}>
         <span>
@@ -61,7 +63,7 @@ console.log(retirada)
           >
             {path.includes("parteB") ? "Parte B" : "Parte A"}
           </a>
-          <i
+          {user.rolDesc == "BRICOMART_INPROECO" && <i
         className="oi oi-trash"
         style={{
           cursor: "pointer",
@@ -70,7 +72,7 @@ console.log(retirada)
           marginLeft: "5px",
         }}
         onClick={() => handleDeleteClick(type === "parteB" ? "parteB_ruta" : "parteA_ruta")}
-      />
+      />}
           
         </span>
       </li>
