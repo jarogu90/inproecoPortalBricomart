@@ -823,7 +823,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup>
-                                        <Label>Cantidad</Label>
+                                        <Label>Cantidad de Gas</Label>
                                         <Input
                                         type="number"
                                         onChange={onChangeCantidad}
@@ -966,7 +966,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={6}>
                                     <FormGroup>
-                                        <Label>Indicar, si fuera necesario, el nº de veces que es necesario replicar el formulario</Label>
+                                        <Label>Indicar el número de unidades de la misma referencia para replicar el formulario (es obligatorio rellenar un formulario por cada aparato vendido)</Label>
                                         <Input
                                         type="text"
                                         name="duplicado"
