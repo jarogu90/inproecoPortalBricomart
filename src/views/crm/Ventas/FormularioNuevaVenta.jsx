@@ -871,7 +871,7 @@ const FormularioNuevaVenta = ({history}) => {
                                 </Col>
                                 <Col md={3}>
                                     <FormGroup>
-                                        <Label>Número de pedido <span style={{ color: 'red' }}>*</span></Label>
+                                        <Label>Número de pedido o boletín de venta <span style={{ color: 'red' }}>*</span></Label>
                                         <Input
                                                 required={datosForm.instalacion_propia == 1}
 
